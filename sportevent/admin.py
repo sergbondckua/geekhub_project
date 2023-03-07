@@ -9,7 +9,7 @@ from sportevent.common.admin import BaseAdmin
 
 @admin.register(Athlete)
 class AthleteAdmin(UserAdmin):
-    """Адмін інтерфейс для атлетів"""
+    """ Адмін інтерфейс для атлетів """
     list_display = UserAdmin.list_display + (
         "date_of_birth", "gender", "city", "phone", "club",
     )
@@ -50,7 +50,7 @@ class AthleteAdmin(UserAdmin):
 
 @admin.register(Distance)
 class DistanceAdmin(BaseAdmin):
-    """Адмін інтерфейс для додавання дистанцій"""
+    """ Admin interface for adding distances """
     list_display = ("title", "distance_in_unit", "event",)
     list_filter = ("event",)
     search_fields = ("title", "event",)
@@ -67,7 +67,7 @@ class DistanceAdmin(BaseAdmin):
 
 @admin.register(Event)
 class EventAdmin(BaseAdmin):
-    """Адмін інтерфейс для спорт заходу"""
+    """ Admin interface for sports event """
     list_display = ("title", "date_event", "location",)
     list_filter = ("date_event",)
     search_fields = ("title", "location",)
@@ -84,7 +84,7 @@ class EventAdmin(BaseAdmin):
 
 @admin.register(ResultEvent)
 class ResultEventAdmin(BaseAdmin):
-    """Адмін інтерфейс для результатів"""
+    """ Admin interface for results """
     fieldsets = (
                     (_("Інформація спорт заходу"),
                      {"fields": ("event", "athlete", "result_time",)}),

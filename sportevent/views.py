@@ -1,20 +1,20 @@
-from django.shortcuts import render
+"""Views"""
 from django.views import generic
 
 from sportevent.models import Event
 
 
 class IndexView(generic.TemplateView):
-    """Головна сторінка"""
+    """ Home page """
     template_name = "sportevent/home.html"
 
 
 class EventsListView(generic.ListView):
-    """Список всіх заходів"""
+    """ List of all events """
     model = Event
     paginate_by = 12
 
 
 class EventDetailView(generic.DetailView):
-    """Подробиці спорт заходу"""
+    """ Details of the sports event """
     model = Event

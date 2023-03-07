@@ -20,8 +20,9 @@
             <div class="col-lg-3 col-12">
               <div class="custom-block-icon-wrap">
                 <div class="custom-block-image-wrap custom-block-image-detail-page">
-                  <img src="https://static.runukraine.org/wp-content/uploads/sites/38/2022/11/cropped-logo.os3-01.png"
-                       class="custom-block-image img-fluid" alt="">
+                  <img
+                      src="https://static.runukraine.org/wp-content/uploads/sites/38/2023/01/Medal_OB-YEDNANI_SMILYVISTYU_Ryatuyemo_zhyttya_1080h1080.png"
+                      class="custom-block-image img-fluid" alt="">
                 </div>
               </div>
             </div>
@@ -74,12 +75,42 @@
           </div>
         </div>
         <!--Content-->
-        {% get_all_athletes_of_distance event.id as athletes %}
-{#        {{ athletes }}#}
-        {% for runner in athletes %}
-          {{ runner.last_name }} {{ runner.first_name }}<br>
+        {% get_all_event_distances event.id as distances %}
+        {% for distance in distances %}
+          <table class="table">
+          <caption class=" ">{{ distance.distance_in_unit }}</caption>
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Стартовий номер</th>
+            <th scope="col">П.І.Б</th>
+            <th scope="col">Стать</th>
+            <th scope="col">Рік народження</th>
+            <th scope="col">Місто</th>
+            <th scope="col">Клуб</th>
+          </tr>
+          </thead>
+          <tbody class="table-group-divider">
+          {% for name in distance.athlete.all %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>--</td>
+              <td>{{ name.first_name }} {{ name.last_name }}</td>
+              <td>
+                {% if name.gender == "male" %}
+                  Чоловік
+                {% else %}
+                  Жінка
+                {% endif %}
+              </td>
+              <td>{{ name.date_of_birth|date:"Y" }}</td>
+              <td>{{ name.city }}</td>
+              <td>{{ name.club }}</td>
+            </tr>
+          {% endfor %}
         {% endfor %}
-
+        </tbody>
+        </table>
       </div>
     </div>
   </section>

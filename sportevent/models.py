@@ -7,9 +7,7 @@ from sportevent.common.models import BaseModel
 
 
 class Athlete(AbstractUser):
-    """
-    Повнофункціональна модель користувача сайту
-    """
+    """ Full-featured site user model """
 
     GENDER_CHOICES = [
         ("male", _("Чоловіча")),
@@ -42,24 +40,19 @@ class Athlete(AbstractUser):
     club = models.CharField(_("Спортивний клуб"), max_length=100, blank=True)
 
     def __str__(self):
-        """
-        Рядкове представлення экземпляру класу
-        """
+        """ A string representation of an instance of a class """
         return f"{self.first_name} {self.last_name}: ({self.username})" \
             if self.first_name and self.last_name is not None else self.username
 
     class Meta:
-        """Meta клас"""
+        """ Meta class """
         ordering = ("username",)
         verbose_name = _("Атлета")
         verbose_name_plural = _("Атлети")
 
 
 class Event(BaseModel):
-    """
-    Спортивний захід
-    """
-
+    """ Sports event """
     title = models.CharField(_("Назва"), max_length=100)
     date_event = models.DateField(_("Дата проведення"))
     location = models.CharField(_("Місце проведення"), max_length=200)
@@ -67,22 +60,19 @@ class Event(BaseModel):
 
     def __str__(self):
         """
-        Рядкове представлення экземпляру класу
+        A string representation of an instance of a class
         """
         return self.title
 
     class Meta:
-        """Meta клас"""
+        """ Meta class for events """
         ordering = ("date_event",)
         verbose_name = _("Спортивний захід")
         verbose_name_plural = _("Спортивні заходи")
 
 
 class Distance(BaseModel):
-    """
-    Дистанція
-    """
-
+    """ Distance """
     title = models.CharField(_("Назва"), max_length=50)
     distance_in_unit = models.PositiveSmallIntegerField(_("Дистанція"))
     event = models.ForeignKey(
@@ -98,10 +88,8 @@ class Distance(BaseModel):
         blank=True
     )
 
-    def __str__(self):
-        """
-        Рядкове представлення экземпляру класу
-        """
+    def __str__(self) -> str:
+        """ A string representation of an instance of a class """
         return f"{self.event} -- {self.title}: {self.distance_in_unit}"
 
     class Meta:
@@ -112,18 +100,16 @@ class Distance(BaseModel):
 
 
 class ResultEvent(BaseModel):
-    """
-    Результати заходу
-    """
+    """ Results of the event """
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, verbose_name=_("Захід"), on_delete=models.CASCADE)
     result_time = models.TimeField(_("Результат"))
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.athlete.last_name} - {self.event.title} ({self.result_time})"
 
     class Meta:
-        """Meta клас"""
+        """ Meta class """
         ordering = ("-created_at",)
         verbose_name = _("Результати заходу")
         verbose_name_plural = _("Результати заходів")
