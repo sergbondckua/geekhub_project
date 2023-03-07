@@ -1,0 +1,30 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand me-lg-5 me-0" href="/">
+        <img src="{% static 'sportevent/images/run.png' %}" class="logo-image img-fluid" alt="logo">
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-lg-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Головна</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Команда клубу</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+              <li><a class="dropdown-item" href="#">Listing Page</a></li>
+              <li><a class="dropdown-item active" href="#">Detail Page</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Контакти</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
