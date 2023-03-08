@@ -75,6 +75,7 @@ class EventAdmin(BaseAdmin):
                     (_("Інформація спорт заходу"),
                      {"fields": (
                          "title",
+                         "poster",
                          "date_event",
                          "location",
                          "description",

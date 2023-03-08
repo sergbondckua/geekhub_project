@@ -12,7 +12,7 @@ class IndexView(generic.TemplateView):
 class EventsListView(generic.ListView):
     """ List of all events """
     model = Event
-    paginate_by = 12
+    paginate_by = 6
 
 
 class EventDetailView(generic.DetailView):

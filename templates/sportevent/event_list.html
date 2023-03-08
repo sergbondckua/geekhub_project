@@ -19,11 +19,9 @@
             <div class="custom-block d-flex">
               <div class="">
                 <div class="custom-block-icon-wrap">
-                  <div class="section-overlay"></div>
-                    <img src="https://static.runukraine.org/wp-content/uploads/sites/38/2023/01/Medal_OB-YEDNANI_SMILYVISTYU_Ryatuyemo_zhyttya_1080h1080.png"
+                    <img src="{{ event.poster.url }}"
                          class="custom-block-image img-fluid" alt="">
                 </div>
-
                 <div class="mt-2">
                   <a href="{% url 'sportevent:event-detail' event.id %}" class="btn custom-btn">
                     Подробиці

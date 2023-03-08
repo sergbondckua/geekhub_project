@@ -1,4 +1,8 @@
 """Models"""
+import os
+import random
+
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
@@ -53,10 +57,28 @@ class Athlete(AbstractUser):
 
 class Event(BaseModel):
     """ Sports event """
+
+    def generate_path(self, filename):
+        """ Generates path and filename to save """
+        ext = filename.rsplit(".", 1)[-1]
+        result = f"event/posters/poster_{random.randint(0, 9999)}.{ext}"
+        path = os.path.join(settings.MEDIA_ROOT, result)
+        if os.path.exists(path):
+            os.remove(path)
+        return result
+
     title = models.CharField(_("Назва"), max_length=100)
     date_event = models.DateField(_("Дата проведення"))
     location = models.CharField(_("Місце проведення"), max_length=200)
     description = models.TextField(_("Опис"), blank=True)
+    poster = models.ImageField(
+        _("Постер"),
+        blank=True,
+        null=True,
+        upload_to=generate_path,
+        default=None,
+        help_text=_("Завантажити зображення: (PNG, JPEG, JPG)"),
+    )
 
     def __str__(self):
         """
