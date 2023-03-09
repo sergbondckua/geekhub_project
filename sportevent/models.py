@@ -61,7 +61,7 @@ class Event(BaseModel):
     def generate_path(self, filename):
         """ Generates path and filename to save """
         ext = filename.rsplit(".", 1)[-1]
-        result = f"event/posters/poster_{random.randint(0, 9999)}.{ext}"
+        result = f"event/posters/poster_event_{self.id}_{self.date_event}.{ext}"
         path = os.path.join(settings.MEDIA_ROOT, result)
         if os.path.exists(path):
             os.remove(path)
