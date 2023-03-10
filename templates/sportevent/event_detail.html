@@ -1,4 +1,5 @@
 {% extends "sportevent/base.html" %}
+{% load django_bootstrap5 %}
 {% load main_tags %}
 
 {% block title %}
@@ -19,11 +20,13 @@
           <div class="row">
             <div class="col-lg-3 col-12">
               <div class="custom-block-icon-wrap">
-                <div class="custom-block-image-wrap custom-block-image-detail-page">
-                  <img
-                      src="{{ event.poster.url }}"
-                      class="custom-block-image img-fluid" alt="">
-                </div>
+                {% if event.poster %}
+                  <div class="custom-block-image-wrap custom-block-image-detail-page">
+                    <img
+                        src="{{ event.poster.url }}"
+                        class="custom-block-image img-fluid" alt="">
+                  </div>
+                {% endif %}
               </div>
             </div>
 
@@ -40,7 +43,10 @@
                 <div
                     class="profile-block profile-detail-block d-flex flex-wrap align-items-center mt-5">
                   <div class="d-flex mb-3 mb-lg-0 mb-md-0">
-                    <!--Text-->
+                    {% for distance in event.distances.all %}
+                    <a href="{% url 'sportevent:register_athlete_distance' distance.id %}"
+                    >{{ distance.distance_in_unit }}</a>
+                    {% endfor %}
                   </div>
 
                   <ul class="social-icon ms-lg-auto ms-md-auto">

@@ -14,41 +14,56 @@
             <h4 class="section-title">Заплановані бігові події</h4>
           </div>
         </div>
-        {% for event in event_list %}
-          <div class="col-lg-6 col-12 mb-4 mb-lg-0">
-            <div class="custom-block d-flex">
-              <div class="">
-                <div class="custom-block-icon-wrap">
-                    <img src="{{ event.poster.url }}"
-                         class="custom-block-image img-fluid" alt="">
+        {% if event_list %}
+          {% for event in event_list %}
+            <div class="col-lg-6 col-12 mb-4 mb-lg-4">
+              <div class="custom-block d-flex">
+                <div class="">
+                  {% if event.poster %}
+                    <div class="custom-block-icon-wrap">
+                      <img src="{{ event.poster.url }}"
+                           class="custom-block-image img-fluid" alt="">
+                    </div>
+                  {% endif %}
+                  <div class="mt-2">
+                    <a href="{% url 'sportevent:event-detail' event.id %}" class="btn custom-btn">
+                      Подробиці
+                    </a>
+                  </div>
                 </div>
-                <div class="mt-2">
-                  <a href="{% url 'sportevent:event-detail' event.id %}" class="btn custom-btn">
-                    Подробиці
-                  </a>
-                </div>
-              </div>
 
-              <div class="custom-block-info">
-                <div class="custom-block-top d-flex mb-1">
+                <div class="custom-block-info">
+                  <div class="custom-block-top d-flex mb-1">
                   <span class="me-4">
                     <i class="text-warning bi bi-calendar-event"></i>
                     {{ event.date_event }}
                   </span>
-                </div>
-                <h5 class="mb-2">
-                  <a href="{% url 'sportevent:event-detail' event.id %}">
-                    {{ event.title }}
-                  </a>
-                </h5>
-                <p class="mb-0">{{ event.description|slice:"150" }}</p>
-                <div class="custom-block-bottom d-flex justify-content-between mt-3">
-                  <span><i class="text-warning bi bi-geo-alt-fill"></i> {{ event.location }}</span>
+                  </div>
+                  <h5 class="mb-2">
+                    <a href="{% url 'sportevent:event-detail' event.id %}">
+                      {{ event.title }}
+                    </a>
+                  </h5>
+                  <p class="mb-0">{{ event.description|slice:"100" }}</p>
+                  <div class="custom-block-bottom d-flex justify-content-between mt-3">
+                    <span><i class="text-warning bi bi-geo-alt-fill"></i> {{ event.location }}</span>
+                  </div>
+                  <div class="custom-block-bottom d-flex justify-content-between mt-3">
+                    {% for distance in event.distances.all %}
+                      <span><i class="fa-solid fa-worm text-info"></i> {{ distance.distance_in_unit }} km
+                      <i class="fa-solid fa-person-running text-info"></i> {{ distance.athlete.count }}</span>
+                      {{ distance.id }}
+                    {% endfor %}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        {% else %}
+          <p class="text-muted">
+            Немає жодного запланованого заходу.
+          </p>
+        {% endif %}
       </div>
     </div>
   </section>

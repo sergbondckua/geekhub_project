@@ -1,6 +1,5 @@
 """Models"""
 import os
-import random
 
 from django.conf import settings
 from django.db import models
@@ -88,7 +87,7 @@ class Event(BaseModel):
 
     class Meta:
         """ Meta class for events """
-        ordering = ("date_event",)
+        ordering = ("-date_event",)
         verbose_name = _("Спортивний захід")
         verbose_name_plural = _("Спортивні заходи")
 
@@ -100,13 +99,13 @@ class Distance(BaseModel):
     event = models.ForeignKey(
         Event,
         verbose_name=_("Спорт захід"),
-        related_name="events",
+        related_name="distances",
         on_delete=models.CASCADE
     )
     athlete = models.ManyToManyField(
         Athlete,
         verbose_name=_("Атлети"),
-        related_name="athletes",
+        related_name="distances",
         blank=True
     )
 
