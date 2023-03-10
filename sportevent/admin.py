@@ -3,7 +3,12 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from sportevent.models import Athlete, Event, Distance, ResultEvent
+from sportevent.models import Athlete
+from sportevent.models import Event
+from sportevent.models import Distance
+from sportevent.models import ResultEvent
+from sportevent.models import RegisterDistanceAthlete
+
 from sportevent.common.admin import BaseAdmin
 
 
@@ -53,14 +58,14 @@ class DistanceAdmin(BaseAdmin):
     """ Admin interface for adding distances """
     list_display = ("title", "distance_in_unit", "event",)
     list_filter = ("event",)
-    search_fields = ("title", "event",)
+    search_fields = ("title",)
     fieldsets = (
                     (_("Деталі дистанції"),
                      {"fields": (
+                         "id",
                          "title",
                          "distance_in_unit",
                          "event",
-                         "athlete",
                      )}),
                 ) + BaseAdmin.fieldsets
 
@@ -79,6 +84,22 @@ class EventAdmin(BaseAdmin):
                          "date_event",
                          "location",
                          "description",
+                     )}),
+                ) + BaseAdmin.fieldsets
+
+
+@admin.register(RegisterDistanceAthlete)
+class RegisterDistanceAthleteAdmin(BaseAdmin):
+    """ Admin interface for registering distances """
+    list_display = ("start_number", "athlete", "distance",)
+    list_filter = ("distance", "athlete",)
+    search_fields = ("start_number",)
+    fieldsets = (
+                    (_("Деталі реєстрації"),
+                     {"fields": (
+                         "distance",
+                         "start_number",
+                         "athlete",
                      )}),
                 ) + BaseAdmin.fieldsets
 

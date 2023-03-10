@@ -44,8 +44,8 @@
                     class="profile-block profile-detail-block d-flex flex-wrap align-items-center mt-5">
                   <div class="d-flex mb-3 mb-lg-0 mb-md-0">
                     {% for distance in event.distances.all %}
-                    <a href="{% url 'sportevent:register_athlete_distance' distance.id %}"
-                    >{{ distance.distance_in_unit }}</a>
+                      <a href="{% url 'sportevent:register_athlete_distance' distance.id %}"
+                      > {{ distance.title }} {{ distance.distance_in_unit }}</a> |
                     {% endfor %}
                   </div>
 
@@ -81,11 +81,11 @@
           </div>
         </div>
         <!--Content-->
-        {% get_all_event_distances event.id as distances %}
-        {% for distance in distances %}
-          <table class="table">
-          <caption class=" ">{{ distance.distance_in_unit }}</caption>
-          <thead>
+        {% for distance in event.distances.all %}
+          <div class="table-responsive">
+          <table class="table caption-top">
+          <caption class=" ">{{ distance.distance_in_unit }} км.</caption>
+          <thead class="table-light">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Стартовий номер</th>
@@ -97,26 +97,29 @@
           </tr>
           </thead>
           <tbody class="table-group-divider">
-          {% for name in distance.athlete.all %}
+          {% for item in distance.registered_distance.all %}
             <tr>
               <th scope="row">{{ forloop.counter }}</th>
-              <td>--</td>
-              <td>{{ name.first_name }} {{ name.last_name }}</td>
+              <td>{{ item.start_number }}</td>
+              <td>{{ item.athlete.first_name }} {{ name.athlete.last_name }}</td>
               <td>
-                {% if name.gender == "male" %}
+                {% if item.athlete.gender == "male" %}
                   Чоловік
-                {% else %}
+                {% elif item.athlete.gender == "female" %}
                   Жінка
+                {% else %}
+                  Не вказано
                 {% endif %}
               </td>
-              <td>{{ name.date_of_birth|date:"Y" }}</td>
-              <td>{{ name.city }}</td>
-              <td>{{ name.club }}</td>
+              <td>{{ item.athlete.date_of_birth|date:"Y" }}</td>
+              <td>{{ item.athlete.city }}</td>
+              <td>{{ item.athlete.club }}</td>
             </tr>
           {% endfor %}
         {% endfor %}
         </tbody>
         </table>
+        </div>
       </div>
     </div>
   </section>

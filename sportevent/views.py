@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.views import generic
 
-from sportevent.models import Event, Distance
+from sportevent.models import Event, Distance, RegisterDistanceAthlete, Athlete
 
 
 class IndexView(generic.TemplateView):
@@ -21,14 +21,17 @@ class EventDetailView(generic.DetailView):
     model = Event
 
 
-class RegisterAthleteDistanceView(generic.View):
+class RegisterAthleteDistanceView(generic.DetailView):
     """ Register a new athlete on distance """
 
     def get(self, request, pk):
         """Get the distance event"""
         distance = Distance.objects.get(id=pk)
         athlete = request.user
-        distance.athlete.add(athlete)
+        RegisterDistanceAthlete.objects.create(
+            athlete=athlete,
+            distance=distance,
+        )
         return render(request,
-                      "sportevent/distance_form.html",
+                      "sportevent/register_distance.html",
                       {"distance": distance, "athlete": athlete})

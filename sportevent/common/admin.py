@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 class BaseAdmin(admin.ModelAdmin):
     """Базовий клас зоготовка"""
 
-    readonly_fields = ("created_at", "updated_at",)
+    readonly_fields = ("id", "created_at", "updated_at",)
     fieldsets = (
         (_("Інфо запису"),
          {"fields": (

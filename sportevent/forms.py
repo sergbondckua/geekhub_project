@@ -1,13 +1,13 @@
 """Forms"""
 from django import forms
 
-from .models import Distance
+from .models import Athlete
 
 
-class DistanceForm(forms.ModelForm):
+class AthleteForm(forms.ModelForm):
     """Forms"""
 
     class Meta:
         """Meta class"""
-        model = Distance
-        fields = ["athlete"]
+        model = Athlete
+        fields = "__all__"

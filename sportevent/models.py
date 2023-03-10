@@ -102,12 +102,6 @@ class Distance(BaseModel):
         related_name="distances",
         on_delete=models.CASCADE
     )
-    athlete = models.ManyToManyField(
-        Athlete,
-        verbose_name=_("Атлети"),
-        related_name="distances",
-        blank=True
-    )
 
     def __str__(self) -> str:
         """ A string representation of an instance of a class """
@@ -115,9 +109,43 @@ class Distance(BaseModel):
 
     class Meta:
         """Meta клас"""
-        ordering = ("-created_at",)
+        ordering = ("-event",)
         verbose_name = _("Дистанція")
         verbose_name_plural = _("Дистанції")
+
+
+class RegisterDistanceAthlete(BaseModel):
+    """ Registered athletes for the distance """
+    distance = models.ForeignKey(
+        Distance,
+        verbose_name=_("Дистанція"),
+        on_delete=models.CASCADE,
+        related_name="registered_distance"
+    )
+    athlete = models.ForeignKey(
+        Athlete,
+        verbose_name=_("Атлети"),
+        on_delete=models.CASCADE,
+        related_name="registered_distance",
+        blank=True,
+        null=True,
+    )
+    start_number = models.PositiveSmallIntegerField(
+        verbose_name=_("Номер учасника"),
+        unique=True,
+        blank=True,
+        null=True,
+    )
+
+    def __str__(self) -> str:
+        """ A string representation of an instance of a class """
+        return f"{self.athlete.first_name} {self.athlete.last_name} - " \
+               f"{self.distance.distance_in_unit}: {self.start_number}"
+    class Meta:
+        """ Meta class """
+        ordering = ("start_number",)
+        verbose_name = _("Атлета на дистанцію")
+        verbose_name_plural = _("Зареєстровані атлети на дистанції")
 
 
 class ResultEvent(BaseModel):

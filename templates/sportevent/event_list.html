@@ -50,9 +50,12 @@
                   </div>
                   <div class="custom-block-bottom d-flex justify-content-between mt-3">
                     {% for distance in event.distances.all %}
-                      <span><i class="fa-solid fa-worm text-info"></i> {{ distance.distance_in_unit }} km
-                      <i class="fa-solid fa-person-running text-info"></i> {{ distance.athlete.count }}</span>
-                      {{ distance.id }}
+                      <span>
+                        <i class="fa-solid fa-worm text-info"></i>
+                        {{ distance.distance_in_unit }} km
+                      <i class="fa-solid fa-person-running text-info"></i>
+                        {{ distance.registered_distance.count }}
+                      </span>
                     {% endfor %}
                   </div>
                 </div>
