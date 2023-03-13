@@ -7,7 +7,21 @@
 {% endblock %}
 
 {% block content %}
-  {{ distance }}
-  {{ athlete }}
+  <h2>
+    {{ distance.event }}
+    <i class="fa-solid fa-worm text-info"></i>
+    {{ distance.distance_in_unit }} km
+  </h2>
+
+  <div class="row">
+    <div class="col-4">
+      <form method="post" action="">
+        {% bootstrap_form_errors form %}
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button "Продовжити" button_type="submit" button_class="btn-primary" %}
+      </form>
+    </div>
+  </div>
 
 {% endblock %}

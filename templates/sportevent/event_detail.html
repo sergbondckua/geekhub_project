@@ -43,24 +43,22 @@
                 <div
                     class="profile-block profile-detail-block d-flex flex-wrap align-items-center mt-5">
                   <div class="d-flex mb-3 mb-lg-0 mb-md-0">
-                    {% for distance in event.distances.all %}
-                      <a href="{% url 'sportevent:register_athlete_distance' distance.id %}"
-                      > {{ distance.title }} {{ distance.distance_in_unit }}</a> |
-                    {% endfor %}
+                    <p>
+                      Дистанції
+                      <strong>Реєстрація</strong>
+                    </p>
                   </div>
 
                   <ul class="social-icon ms-lg-auto ms-md-auto">
-                    <li class="social-icon-item">
-                      <a href="#" class="social-icon-link bi-instagram"></a>
-                    </li>
+                    {% for distance in event.distances.all %}
+                      <li class="social-icon-item">
+                        <a href="{% url 'sportevent:register_athlete_distance' distance.id %}" class="btn
+                        btn-primary">
+                          {{ distance.title }}: {{ distance.distance_in_unit }} km
+                        </a>
+                      </li>
 
-                    <li class="social-icon-item">
-                      <a href="#" class="social-icon-link bi-twitter"></a>
-                    </li>
-
-                    <li class="social-icon-item">
-                      <a href="#" class="social-icon-link bi-whatsapp"></a>
-                    </li>
+                    {% endfor %}
                   </ul>
                 </div>
               </div>
@@ -101,7 +99,7 @@
             <tr>
               <th scope="row">{{ forloop.counter }}</th>
               <td>{{ item.start_number }}</td>
-              <td>{{ item.athlete.first_name }} {{ name.athlete.last_name }}</td>
+              <td>{{ item.athlete.first_name }} {{ item.athlete.last_name }}</td>
               <td>
                 {% if item.athlete.gender == "male" %}
                   Чоловік
