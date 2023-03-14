@@ -14,12 +14,12 @@
   </h2>
 
   <div class="row">
-    <div class="col-4">
+    <div class="col-lg-6 col-sm-4">
       <form method="post" action="">
         {% bootstrap_form_errors form %}
         {% csrf_token %}
         {% bootstrap_form form %}
-        {% bootstrap_button "Продовжити" button_type="submit" button_class="btn-primary" %}
+        {% bootstrap_button "Зареєструватися" button_type="submit" button_class="btn-danger" %}
       </form>
     </div>
   </div>

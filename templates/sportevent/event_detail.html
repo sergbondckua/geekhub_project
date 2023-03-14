@@ -41,19 +41,19 @@
                 <p>{{ event.description }}</p>
 
                 <div
-                    class="profile-block profile-detail-block d-flex flex-wrap align-items-center mt-5">
+                    class="align-items-center mt-5">
                   <div class="d-flex mb-3 mb-lg-0 mb-md-0">
                     <p>
-                      Дистанції
+                      Обирай дистанцію:
                       <strong>Реєстрація</strong>
                     </p>
                   </div>
 
                   <ul class="social-icon ms-lg-auto ms-md-auto">
                     {% for distance in event.distances.all %}
-                      <li class="social-icon-item">
+                      <li class="social-icon-item mb-3">
                         <a href="{% url 'sportevent:register_athlete_distance' distance.id %}" class="btn
-                        btn-primary">
+                        btn-outline-warning text-dark">
                           {{ distance.title }}: {{ distance.distance_in_unit }} km
                         </a>
                       </li>
