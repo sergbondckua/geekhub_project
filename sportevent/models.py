@@ -1,57 +1,14 @@
 """Models"""
 import os
+import random
 
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
+from profiles.models import Athlete
 from sportevent.common.models import BaseModel
-
-
-class Athlete(AbstractUser):
-    """ Full-featured site user model """
-
-    GENDER_CHOICES = [
-        ("male", _("Чоловіча")),
-        ("female", _("Жіноча")),
-    ]
-
-    date_of_birth = models.DateField(
-        _("Дата народження"),
-        blank=True,
-        null=True
-    )
-    gender = models.CharField(
-        _("Стать"),
-        max_length=10,
-        blank=True,
-        choices=GENDER_CHOICES
-    )
-    phone = models.CharField(_("Номер телефону"), max_length=15, blank=True)
-    emergency_contact_name = models.CharField(
-        _("Ім'я екстреного контакту"),
-        max_length=50,
-        blank=True,
-    )
-    emergency_contact_phone = models.CharField(
-        _("Номер телефону екстреного контакту"),
-        max_length=15,
-        blank=True,
-    )
-    city = models.CharField(_("Населений пункт"), max_length=100, blank=True)
-    club = models.CharField(_("Спортивний клуб"), max_length=100, blank=True)
-
-    def __str__(self):
-        """ A string representation of an instance of a class """
-        return f"{self.first_name} {self.last_name}: ({self.username})" \
-            if self.first_name and self.last_name is not None else self.username
-
-    class Meta:
-        """ Meta class """
-        ordering = ("username",)
-        verbose_name = _("Атлета")
-        verbose_name_plural = _("Атлети")
 
 
 class Event(BaseModel):
@@ -60,7 +17,8 @@ class Event(BaseModel):
     def generate_path(self, filename):
         """ Generates path and filename to save """
         ext = filename.rsplit(".", 1)[-1]
-        result = f"event/posters/poster_event_{self.id}_{self.date_event}.{ext}"
+        result = f"event/posters/poster_event_" \
+                 f"{random.randint(1, 999)}_{self.date_event}.{ext}"
         path = os.path.join(settings.MEDIA_ROOT, result)
         if os.path.exists(path):
             os.remove(path)
@@ -141,6 +99,7 @@ class RegisterDistanceAthlete(BaseModel):
         """ A string representation of an instance of a class """
         return f"{self.athlete.first_name} {self.athlete.last_name} - " \
                f"{self.distance.distance_in_unit}: {self.start_number}"
+
     class Meta:
         """ Meta class """
         ordering = ("start_number",)

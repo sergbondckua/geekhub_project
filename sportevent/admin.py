@@ -1,57 +1,16 @@
 """Admin"""
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+# from django.contrib.auth.admin import UserAdmin
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from sportevent.models import Athlete
+# from sportevent.models import Athlete
 from sportevent.models import Event
 from sportevent.models import Distance
 from sportevent.models import ResultEvent
 from sportevent.models import RegisterDistanceAthlete
 
 from sportevent.common.admin import BaseAdmin
-
-
-@admin.register(Athlete)
-class AthleteAdmin(UserAdmin):
-    """ Адмін інтерфейс для атлетів """
-    list_display = UserAdmin.list_display + (
-        "date_of_birth", "gender", "city", "phone", "club",
-    )
-    list_filter = UserAdmin.list_filter + (
-        "date_of_birth", "gender", "city", "phone", "club",
-    )
-    search_fields = UserAdmin.search_fields + (
-        "city", "club", "emergency_contact_name",
-    )
-    fieldsets = UserAdmin.fieldsets + (
-        (_("Додаткові дані"),
-         {"fields": (
-             "date_of_birth",
-             "gender",
-             "phone",
-             "emergency_contact_name",
-             "emergency_contact_phone",
-             "city",
-             "club",
-         )}),
-    )
-    add_fieldsets = UserAdmin.add_fieldsets + (
-        (_("Додаткові дані"),
-         {"fields": (
-             "first_name",
-             "last_name",
-             "email",
-             "date_of_birth",
-             "gender",
-             "phone",
-             "emergency_contact_name",
-             "emergency_contact_phone",
-             "city",
-             "club",
-         )}),
-    )
 
 
 class RegisterDistanceAthleteInLine(admin.TabularInline):
@@ -113,21 +72,21 @@ class EventAdmin(BaseAdmin):
     get_image.short_description = "Мініатюра"
 
 
-@admin.register(RegisterDistanceAthlete)
-class RegisterDistanceAthleteAdmin(BaseAdmin):
-    """ Admin interface for registering distances """
-    list_display = ("start_number", "athlete", "distance",)
-    list_filter = ("distance", "athlete",)
-    search_fields = ("start_number",)
-    list_display_links = ("athlete",)
-    fieldsets = (
-                    (_("Деталі реєстрації"),
-                     {"fields": (
-                         "distance",
-                         "start_number",
-                         "athlete",
-                     )}),
-                ) + BaseAdmin.fieldsets
+# @admin.register(RegisterDistanceAthlete)
+# class RegisterDistanceAthleteAdmin(BaseAdmin):
+#     """ Admin interface for registering distances """
+#     list_display = ("start_number", "athlete", "distance",)
+#     list_filter = ("distance", "athlete",)
+#     search_fields = ("start_number",)
+#     list_display_links = ("athlete",)
+#     fieldsets = (
+#                     (_("Деталі реєстрації"),
+#                      {"fields": (
+#                          "distance",
+#                          "start_number",
+#                          "athlete",
+#                      )}),
+#                 ) + BaseAdmin.fieldsets
 
 
 @admin.register(ResultEvent)

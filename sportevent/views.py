@@ -5,8 +5,9 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.utils.translation import gettext_lazy as _
 
-from sportevent.forms import AthleteForm
-from sportevent.models import Event, Distance, RegisterDistanceAthlete, Athlete
+from profiles.models import Athlete
+from profiles.forms import AthleteForm
+from sportevent.models import Event, Distance, RegisterDistanceAthlete
 
 
 class IndexView(generic.TemplateView):
@@ -31,6 +32,7 @@ class RegisterAthleteDistanceView(generic.View):
     form_class = AthleteForm
     template_name = "sportevent/register_distance.html"
 
+    # TODO Delete Comment
     # def get_context_data(self, **kwargs) -> dict:
     #     """ Get the details of the sport event/distance and register"""
     #     context = super().get_context_data(**kwargs)

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "fontawesomefree",
     "django_cleanup.apps.CleanupConfig",
     # Custom apps
+    "profiles",
     "sportevent",
 
 ]
@@ -106,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "sportevent.Athlete"
+AUTH_USER_MODEL = "profiles.Athlete"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

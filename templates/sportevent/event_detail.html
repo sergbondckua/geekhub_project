@@ -1,6 +1,5 @@
 {% extends "sportevent/base.html" %}
 {% load django_bootstrap5 %}
-{% load main_tags %}
 
 {% block title %}
   {{ event.title }}
@@ -53,7 +52,7 @@
                     {% for distance in event.distances.all %}
                       <li class="social-icon-item mb-3">
                         <a href="{% url 'sportevent:register_athlete_distance' distance.id %}" class="btn
-                        btn-outline-warning text-dark">
+                        btn-outline-warning text-secondary">
                           {{ distance.title }}: {{ distance.distance_in_unit }} km
                         </a>
                       </li>
