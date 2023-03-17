@@ -32,5 +32,4 @@ class AthleteForm(forms.ModelForm):
             "gender": forms.RadioSelect(attrs={"required": "True"}),
             "phone": forms.TextInput(attrs={"required": "True"}),
             "city": forms.TextInput(attrs={"required": "True"}),
-            "club": forms.TextInput(attrs={"required": "True"}),
         }

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+import django.core.mail.backends.dummy
 from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,12 +38,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     # Other apps
     "crispy_forms",
     "crispy_bootstrap5",
     "django_bootstrap5",
     "fontawesomefree",
     "django_cleanup.apps.CleanupConfig",
+    # all-auth
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     # Custom apps
     "profiles",
     "sportevent",
@@ -147,3 +153,24 @@ MESSAGE_TAGS = {
     messages.WARNING: "warning",
     messages.ERROR: "danger",
 }
+
+LOGIN_REDIRECT_URL = "/"
+
+# ALL-AUTH
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+if DEBUG:
+    EMAIL_BACKEND = django.core.mail.backends.dummy.EmailBackend
+# else:
+#     EMAIL_BACKEND = django.core.mail.backends.smtp.EmailBackend
+
+SITE_ID = 1

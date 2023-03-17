@@ -1,5 +1,4 @@
 {% extends "sportevent/base.html" %}
-{% load django_bootstrap5 %}
 
 {% block title %}
   {{ event.title }}
@@ -74,51 +73,78 @@
 
         <div class="col-lg-12 col-12">
           <div class="section-title-wrap mb-5">
-            <h4 class="section-title">Учасники</h4>
+            <h4 class="section-title">Зареєстровані учасники</h4>
           </div>
-        </div>
-        <!--Content-->
-        {% for distance in event.distances.all %}
-          <div class="table-responsive">
-          <table class="table caption-top">
-          <caption class=" ">{{ distance.distance_in_unit }} км.</caption>
-          <thead class="table-light">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Стартовий номер</th>
-            <th scope="col">П.І.Б</th>
-            <th scope="col">Стать</th>
-            <th scope="col">Рік народження</th>
-            <th scope="col">Місто</th>
-            <th scope="col">Клуб</th>
-          </tr>
-          </thead>
-          <tbody class="table-group-divider">
-          {% for item in distance.registered_distance.all %}
-            <tr>
-              <th scope="row">{{ forloop.counter }}</th>
-              <td>{{ item.start_number }}</td>
-              <td>{{ item.athlete.first_name }} {{ item.athlete.last_name }}</td>
-              <td>
-                {% if item.athlete.gender == "male" %}
-                  Чоловік
-                {% elif item.athlete.gender == "female" %}
-                  Жінка
-                {% else %}
-                  Не вказано
-                {% endif %}
-              </td>
-              <td>{{ item.athlete.date_of_birth|date:"Y" }}</td>
-              <td>{{ item.athlete.city }}</td>
-              <td>{{ item.athlete.club }}</td>
-            </tr>
-          {% endfor %}
-        {% endfor %}
-        </tbody>
-        </table>
+          <!-- Nav tabs -->
+          <nav class="bg-light">
+            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+              {% for distance in event.distances.all %}
+                <button class="text-dark nav-link {% if forloop.counter == 1 %} active {% endif %}"
+                        id="nav
+                -{{ distance.distance_in_unit }}-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#nav-{{ distance.distance_in_unit }}"
+                        type="button" role="tab" aria-controls="nav-{{ distance.distance_in_unit }}"
+                        aria-selected="true">
+                  {{ distance.title }}: {{ distance.distance_in_unit }} km
+                </button>
+              {% endfor %}
+            </div>
+          </nav>
+          <!-- End Nav tabs -->
+
+          <!--Tabs content-->
+          <div class="tab-content" id="nav-tabContent">
+            {% for distance in event.distances.all %}
+              <!-- Tab -->
+              <div class="tab-pane fade show {% if forloop.counter == 1 %} active {% endif %}"
+                   id="nav-{{ distance.distance_in_unit }}" role="tabpanel"
+                   aria-labelledby="nav-{{ distance.distance_in_unit }}-tab">
+
+                <!--Table responsive-->
+                <div class="table-responsive">
+                  <table class="table table-hover table-sm">
+                    <caption class=" ">{{ distance.distance_in_unit }} км.</caption>
+                    <thead class="">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Стартовий номер</th>
+                      <th scope="col">П.І.Б</th>
+                      <th scope="col">Стать</th>
+                      <th scope="col">Рік народження</th>
+                      <th scope="col">Місто</th>
+                      <th scope="col">Клуб</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                    {% for item in distance.registered_distance.all %}
+                      <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ item.start_number }}</td>
+                        <td>{{ item.athlete.first_name }} {{ item.athlete.last_name }}</td>
+                        <td>
+                          {% if item.athlete.gender == "male" %}
+                            Чоловік
+                          {% elif item.athlete.gender == "female" %}
+                            Жінка
+                          {% endif %}
+                        </td>
+                        <td>{{ item.athlete.date_of_birth|date:"Y" }}</td>
+                        <td>{{ item.athlete.city }}</td>
+                        <td>{{ item.athlete.club }}</td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- End Table responsive-->
+              </div>
+              <!-- End Tab -->
+            {% endfor %}
+          </div>
+          <!--End Tabs content-->
         </div>
       </div>
     </div>
   </section>
-
 {% endblock %}
