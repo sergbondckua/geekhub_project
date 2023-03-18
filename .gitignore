@@ -4,3 +4,6 @@ venv
 # IDE
 .idea
 .vscode
+
+# Environment
+.env

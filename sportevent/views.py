@@ -1,5 +1,6 @@
 """Views"""
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
@@ -26,31 +27,31 @@ class EventDetailView(generic.DetailView):
     model = Event
 
 
-class RegisterAthleteDistanceView(generic.View):
+class RegisterAthleteDistanceView(LoginRequiredMixin, generic.DetailView):
     """ Register a new athlete on distance """
     model = Distance
     form_class = AthleteForm
+    login_url = "/accounts/login/"
     template_name = "sportevent/register_distance.html"
 
-    # TODO Delete Comment
-    # def get_context_data(self, **kwargs) -> dict:
-    #     """ Get the details of the sport event/distance and register"""
-    #     context = super().get_context_data(**kwargs)
-    #     initial = {
-    #         "first_name": self.request.user.first_name,
-    #         "last_name": self.request.user.last_name,
-    #         "email": self.request.user.email,
-    #         "date_of_birth": self.request.user.date_of_birth,
-    #         "gender": self.request.user.gender,
-    #         "phone": self.request.user.phone,
-    #         "city": self.request.user.city,
-    #         "club": self.request.user.club,
-    #     } if not self.request.user.is_anonymous else None
-    #     context["form"] = self.form_class(initial=initial)
-    #     return context
+    def get_context_data(self, **kwargs) -> dict:
+        """ Get the details of the sport event/distance and register"""
+        context = super().get_context_data(**kwargs)
+        initial = {
+            "first_name": self.request.user.first_name,
+            "last_name": self.request.user.last_name,
+            "email": self.request.user.email,
+            "date_of_birth": self.request.user.date_of_birth,
+            "gender": self.request.user.gender,
+            "phone": self.request.user.phone,
+            "city": self.request.user.city,
+            "club": self.request.user.club,
+        } if not self.request.user.is_anonymous else None
+        context["form"] = self.form_class(initial=initial)
+        return context
 
     def post(self, request, pk: int) -> redirect:
-        """Register"""
+        """Register athlete on distance and update information form"""
         distance = self.model.objects.get(id=pk)
         form = self.form_class(request.POST)
 
@@ -70,25 +71,10 @@ class RegisterAthleteDistanceView(generic.View):
                 return redirect(
                     reverse_lazy('sportevent:event-detail',
                                  kwargs={"pk": distance.event.id}))
+            messages.error(
+                request, _("Не вірно введені дані."))
         messages.error(
             request, _("Ви раніше вже реєструвалися на цю дистанцію."))
         return redirect(
             reverse_lazy('sportevent:event-detail',
                          kwargs={"pk": distance.event.id}))
-
-    def get(self, request, pk):
-        """Get the distance event"""
-        distance = self.model.objects.get(id=pk)
-        initial = {
-            "first_name": request.user.first_name,
-            "last_name": request.user.last_name,
-            "email": self.request.user.email,
-            "date_of_birth": request.user.date_of_birth,
-            "gender": request.user.gender,
-            "phone": request.user.phone,
-            "city": request.user.city,
-            "club": request.user.club,
-        } if not request.user.is_anonymous else None
-        form = self.form_class(initial=initial)
-        context = {"distance": distance, "form": form}
-        return render(request, self.template_name, context=context)
