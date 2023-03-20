@@ -1,13 +1,14 @@
 """Views"""
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.utils.translation import gettext_lazy as _
 
 from profiles.models import Athlete
 from profiles.forms import AthleteForm
+from sportevent import tasks
 from sportevent.models import Event, Distance, RegisterDistanceAthlete
 
 
@@ -66,6 +67,11 @@ class RegisterAthleteDistanceView(LoginRequiredMixin, generic.DetailView):
                     athlete=athlete,
                     distance=distance,
                 )
+                tasks.send_to_athlete.delay(
+                    athlete_email=form.instance.email,
+                    distance=f"{distance.title} {distance.distance_in_unit}",
+                    event=distance.event.title
+                )
                 messages.success(
                     request, _("Вітаю! Ви успішно зареєструвалися."))
                 return redirect(
@@ -73,6 +79,12 @@ class RegisterAthleteDistanceView(LoginRequiredMixin, generic.DetailView):
                                  kwargs={"pk": distance.event.id}))
             messages.error(
                 request, _("Не вірно введені дані."))
+            return redirect(
+                reverse_lazy(
+                    'sportevent:register_athlete_distance',
+                    kwargs={"pk": pk}
+                )
+            )
         messages.error(
             request, _("Ви раніше вже реєструвалися на цю дистанцію."))
         return redirect(

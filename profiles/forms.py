@@ -1,4 +1,5 @@
 """ Forms profiles """
+from datetime import datetime
 
 from django import forms
 
@@ -26,8 +27,15 @@ class AthleteForm(forms.ModelForm):
             "first_name": forms.TextInput(attrs={"required": "True"}),
             "last_name": forms.TextInput(attrs={"required": "True"}),
             "email": forms.EmailInput(attrs={"required": "True"}),
-            "date_of_birth": forms.DateInput(
-                attrs={"required": "True", "type": ""},
+            "date_of_birth": forms.SelectDateWidget(
+                years=range(
+                    datetime.now().year - 70, datetime.now().year - 18),
+                attrs={
+                    "style": "width: auto; display: inline-block;",
+                    "required": "True",
+                    "type": "date",
+                    "class": "form-select",
+                },
             ),
             "gender": forms.RadioSelect(attrs={"required": "True"}),
             "phone": forms.TextInput(attrs={"required": "True"}),

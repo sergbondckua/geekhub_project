@@ -5,6 +5,7 @@
     <a class="navbar-brand me-lg-5 me-0" href="/">
       <img src="{% static 'sportevent/images/run.png' %}" class="logo-image img-fluid" alt="logo">
     </a>
+    <h2 class="text-light">CrossRunChe<i class="fa-2xs fa-solid fa-tree-city"></i></h2>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-lg-auto">
         <li class="nav-item">
@@ -12,9 +13,6 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Команда клубу</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Контакти</a>
         </li>
         <li class="nav-item dropdown">
           {% if user.is_authenticated %}
@@ -34,7 +32,6 @@
             </ul>
           {% endif %}
         </li>
-
       </ul>
     </div>
   </div>

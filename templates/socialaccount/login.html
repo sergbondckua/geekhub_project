@@ -9,13 +9,13 @@
 
 <p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{ provider }}.{% endblocktrans %}</p>
 {% else %}
-<h1>{% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}</h1>
+<h1>{% blocktrans with provider.name as provider %}Увійдіть через {{ provider }}{% endblocktrans %}</h1>
 
-<p>{% blocktrans with provider.name as provider %}You are about to sign in using a third party account from {{ provider }}.{% endblocktrans %}</p>
+<p>{% blocktrans with provider.name as provider %}Ви збираєтеся ввійти, використовуючи обліковий запис від {{ provider }}.{% endblocktrans %}</p>
 {% endif %}
 
 <form method="post">
   {% csrf_token %}
-  <button class="btn btn-primary" type="submit">{% trans "Continue" %}</button>
+  <button class="btn btn-primary" type="submit">{% trans "Продовжити" %}</button>
 </form>
 {% endblock %}

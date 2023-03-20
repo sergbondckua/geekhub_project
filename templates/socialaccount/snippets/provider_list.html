@@ -14,14 +14,17 @@
       </li>
     {% endfor %}
   {% endif %}
-  <li>
+  <li class="mb-2">
     <a title="{{ provider.name }}" class="socialaccount_provider {{ provider.id }}"
        href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+
       {% if provider.name == "Google" %}
-        <button class="btn btn-outline-secondary"><i class="text-danger fa-brands fa-google"></i>
-          {{ provider.name }}</button>
+        <button class="btn btn-outline-dark"><i class="text-danger fa-brands fa-google"></i>
+          Продовжити з {{ provider.name }}</button>
       {% else %}
-        <button class="btn btn-outline-secondary">{{ provider.name }}</button>
+        <button class="btn btn-outline-secondary">
+          Sign up with {{ provider.name }}
+        </button>
       {% endif %}
     </a>
   </li>
