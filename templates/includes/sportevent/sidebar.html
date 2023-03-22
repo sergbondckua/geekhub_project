@@ -19,6 +19,8 @@
             <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button"
                data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+            <li><a class="dropdown-item" href="{% url 'profiles:athlete_distances_register' %}">Мої змагання</a></li>
+              <li><a class="dropdown-item" href="{% url 'profiles:profile_view' %}">Профіль</a></li>
               <li><a class="dropdown-item" href="{% url 'account_logout' %}">Вихід</a></li>
             </ul>
           {% else %}

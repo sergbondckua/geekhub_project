@@ -13,6 +13,7 @@ class AthleteForm(forms.ModelForm):
         """Meta class"""
         model = Athlete
         fields = (
+            # "username",
             "first_name",
             "last_name",
             "email",
@@ -26,7 +27,8 @@ class AthleteForm(forms.ModelForm):
         widgets = {
             "first_name": forms.TextInput(attrs={"required": "True"}),
             "last_name": forms.TextInput(attrs={"required": "True"}),
-            "email": forms.EmailInput(attrs={"required": "True"}),
+            "email": forms.EmailInput(
+                attrs={"required": "True", "readonly": "True"}),
             "date_of_birth": forms.SelectDateWidget(
                 years=range(
                     datetime.now().year - 70, datetime.now().year - 18),

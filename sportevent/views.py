@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.utils.translation import gettext_lazy as _
+from django.views.generic.edit import FormMixin
 
 from profiles.models import Athlete
 from profiles.forms import AthleteForm
@@ -28,17 +29,19 @@ class EventDetailView(generic.DetailView):
     model = Event
 
 
-class RegisterAthleteDistanceView(LoginRequiredMixin, generic.DetailView):
+class RegisterAthleteDistanceView(LoginRequiredMixin, FormMixin, generic.DetailView):
     """ Register a new athlete on distance """
     model = Distance
     form_class = AthleteForm
     login_url = "/accounts/login/"
     template_name = "sportevent/register_distance.html"
+    success_url = reverse_lazy("sportevent:event-detail")
 
     def get_context_data(self, **kwargs) -> dict:
         """ Get the details of the sport event/distance and register"""
         context = super().get_context_data(**kwargs)
         initial = {
+            # "username": self.request.user.username,
             "first_name": self.request.user.first_name,
             "last_name": self.request.user.last_name,
             "email": self.request.user.email,
@@ -48,35 +51,34 @@ class RegisterAthleteDistanceView(LoginRequiredMixin, generic.DetailView):
             "city": self.request.user.city,
             "club": self.request.user.club,
         } if not self.request.user.is_anonymous else None
-        context["form"] = self.form_class(initial=initial)
+        context["form"] = AthleteForm(initial=initial)
         return context
 
     def post(self, request, pk: int) -> redirect:
         """Register athlete on distance and update information form"""
-        distance = self.model.objects.get(id=pk)
-        form = self.form_class(request.POST)
+        self.object = self.get_object()
+        form = self.get_form()
 
         if not RegisterDistanceAthlete.objects.filter(distance_id=pk).filter(
                 athlete_id=request.user.id).exists():
             if form.is_valid():
                 athlete = Athlete.objects.get(pk=request.user.id)
-                athlete_form = self.form_class(
-                    form.cleaned_data, instance=athlete)
+                athlete_form = AthleteForm(form.cleaned_data, instance=athlete)
                 athlete_form.save()
                 RegisterDistanceAthlete.objects.create(
                     athlete=athlete,
-                    distance=distance,
+                    distance=self.object,
                 )
                 tasks.send_to_athlete.delay(
                     athlete_email=form.instance.email,
-                    distance=f"{distance.title} {distance.distance_in_unit}",
-                    event=distance.event.title
+                    distance=f"{self.object.title} {self.object.distance_in_unit}",
+                    event=self.object.event.title
                 )
                 messages.success(
                     request, _("Вітаю! Ви успішно зареєструвалися."))
                 return redirect(
                     reverse_lazy('sportevent:event-detail',
-                                 kwargs={"pk": distance.event.id}))
+                                 kwargs={"pk": self.object.event.id}))
             messages.error(
                 request, _("Не вірно введені дані."))
             return redirect(
@@ -89,4 +91,4 @@ class RegisterAthleteDistanceView(LoginRequiredMixin, generic.DetailView):
             request, _("Ви раніше вже реєструвалися на цю дистанцію."))
         return redirect(
             reverse_lazy('sportevent:event-detail',
-                         kwargs={"pk": distance.event.id}))
+                         kwargs={"pk": self.object.event.id}))

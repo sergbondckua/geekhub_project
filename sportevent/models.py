@@ -67,7 +67,7 @@ class Distance(BaseModel):
 
     class Meta:
         """Meta клас"""
-        ordering = ("-event",)
+        ordering = ("-distance_in_unit",)
         verbose_name = _("Дистанція")
         verbose_name_plural = _("Дистанції")
 

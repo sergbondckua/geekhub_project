@@ -211,6 +211,7 @@ SITE_ID = 1
 
 # REDIS connection
 REDIS_HOST = "0.0.0.0"
+# REDIS_HOST = "127.0.0.1"
 REDIS_PORT = "6379"
 
 # Celery connection

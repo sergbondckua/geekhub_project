@@ -1,6 +1,7 @@
 """ Models profiles """
 
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -24,7 +25,12 @@ class Athlete(AbstractUser):
         default="male",
         choices=GENDER_CHOICES
     )
-    phone = models.CharField(_("Номер телефону"), max_length=15, blank=True)
+    phone_regex = RegexValidator(regex=r"^\+?1?\d{9,13}$",
+                                 message="Номер телефону у форматі: "
+                                         "'+380999999'. Дозволено до 13 цифр."
+                                 )
+    phone = models.CharField(_("Номер телефону"), validators=[phone_regex],
+                             max_length=13, blank=True)
     emergency_contact_name = models.CharField(
         _("Ім'я екстреного контакту"),
         max_length=50,
