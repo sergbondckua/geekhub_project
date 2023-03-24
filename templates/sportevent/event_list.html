@@ -54,7 +54,8 @@
                         <i class="fa-solid fa-worm text-info"></i>
                         {{ distance.distance_in_unit }} km
                       <i class="fa-solid fa-person-running text-info"></i>
-                        {{ distance.registered_distance.count }}
+                        <span class="text-danger"
+                        >{{ distance.registered_distance.count }}</span>
                       </span>
                     {% endfor %}
                   </div>

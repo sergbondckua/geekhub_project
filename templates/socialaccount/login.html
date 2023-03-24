@@ -5,9 +5,9 @@
 
 {% block content %}
 {% if process == "connect" %}
-<h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
+<h1>{% blocktrans with provider.name as provider %}Поєднання {{ provider }}{% endblocktrans %}</h1>
 
-<p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{ provider }}.{% endblocktrans %}</p>
+<p>{% blocktrans with provider.name as provider %}Ви збираєтеся підключити новий сторонній обліковий запис із {{ provider }}.{% endblocktrans %}</p>
 {% else %}
 <h1>{% blocktrans with provider.name as provider %}Увійдіть через {{ provider }}{% endblocktrans %}</h1>
 

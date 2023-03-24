@@ -2,24 +2,52 @@
 {% load django_bootstrap5 %}
 
 {% block title %}
-  Distance
+  {{ distance.event }}: {{ distance.distance_in_unit }}
 {% endblock %}
 
 {% block content %}
-  <h2>
+  <h3 class="mb-5">
     {{ distance.event }}
     <i class="fa-solid fa-worm text-info"></i>
     {{ distance.distance_in_unit }} km
-  </h2>
+  </h3>
 
   <div class="row">
-    <div class="col-lg-6 col-sm-4">
-      <form method="post" class="custom-form" action="">
-        {% bootstrap_form_errors form %}
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% bootstrap_button "Підтвердити участь" button_type="submit" button_class="btn-success" %}
-      </form>
+    <div class="col-lg-8 col-sm-4">
+      {% if form %}
+        <form method="post" class="custom-form" action="">
+          {% bootstrap_form_errors form %}
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          {% bootstrap_button "Підтвердити участь" button_type="submit" button_class="btn-success" %}
+        </form>
+      {% else %}
+        <div class="card text-center">
+          {% for data in distance.registered_distance.all %}
+            {% if data.athlete.id  ==  user.id %}
+              <div class="card-header">
+                {{ data.athlete.first_name }} {{ data.athlete.last_name }}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Ви зареєстрований учасник {{ distance.title }}</h5>
+                <p class="card-text">Стартовий номер:</p>
+                <p class="fw-bolder fs-2">№{{ data.start_number }}</p>
+                {% if distance.event.poster %}
+                  <div class="custom-block-icon-wrap">
+                    <img src="{{ distance.event.poster.url }}"
+                         class="custom-block-image img-fluid rounded mx-auto d-block" alt="">
+                  </div>
+                {% endif %}
+              </div>
+              <div class="card-footer text-muted">
+                <a href="{% url 'profiles:athlete_distances_register' %}" class="">
+                  Переглянути всі мої дистанції
+                </a>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
   </div>
 

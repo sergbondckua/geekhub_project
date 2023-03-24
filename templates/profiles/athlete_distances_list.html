@@ -20,6 +20,7 @@
         <div class="row">
           <div class="col-lg-8 col-sm-4">
             <div class="table-responsive">
+              {% if athlete_distances_list %}
               <table class="table caption-top">
                 <caption></caption>
                 <thead>
@@ -46,6 +47,9 @@
                 {% endfor %}
                 </tbody>
               </table>
+            {% else %}
+              <span class="text-muted">Немає жодної реєєстрації на заходи</span>
+            {% endif %}
             </div>
           </div>
         </div>

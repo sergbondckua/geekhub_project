@@ -1,5 +1,6 @@
 """ Views profiles """
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, DetailView, ListView
 from django.utils.translation import gettext_lazy as _
@@ -34,7 +35,8 @@ class AthleteDistancesRegister(LoginRequiredMixin, ListView):
     context_object_name = "athlete_distances_list"
     template_name = "profiles/athlete_distances_list.html"
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         queryset = Athlete.objects.get(
-            id=self.request.user.id).registered_distance.all()
+            id=self.request.user.id).registered_distance.all().order_by(
+            "distance__event__date_event")
         return queryset

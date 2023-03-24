@@ -90,7 +90,7 @@ class RegisterDistanceAthlete(BaseModel):
     )
     start_number = models.PositiveSmallIntegerField(
         verbose_name=_("Номер учасника"),
-        unique=True,
+        unique=False,
         blank=True,
         null=True,
     )

@@ -67,26 +67,12 @@ class EventAdmin(BaseAdmin):
 
     def get_image(self, obj):
         """View image for admin"""
-        return mark_safe(f'<img src={obj.poster.url} width="120" height="100"')
+        if obj.poster:
+            return mark_safe(
+                f'<img src={obj.poster.url} width="120" height="100"')
+        return None
 
     get_image.short_description = "Мініатюра"
-
-
-# @admin.register(RegisterDistanceAthlete)
-# class RegisterDistanceAthleteAdmin(BaseAdmin):
-#     """ Admin interface for registering distances """
-#     list_display = ("start_number", "athlete", "distance",)
-#     list_filter = ("distance", "athlete",)
-#     search_fields = ("start_number",)
-#     list_display_links = ("athlete",)
-#     fieldsets = (
-#                     (_("Деталі реєстрації"),
-#                      {"fields": (
-#                          "distance",
-#                          "start_number",
-#                          "athlete",
-#                      )}),
-#                 ) + BaseAdmin.fieldsets
 
 
 @admin.register(ResultEvent)
