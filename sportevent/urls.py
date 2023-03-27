@@ -15,6 +15,16 @@ urlpatterns = [
         views.RegisterAthleteDistanceView.as_view(),
         name="register_athlete_distance"
     ),
+    path(
+        "results/",
+        views.ResultsEventView.as_view(),
+        name="results",
+    ),
+    path(
+            "results/<int:pk>/",
+            views.ResultsEventDetailView.as_view(),
+            name="results-detail",
+        ),
 ]
 
 app_name = "sportevent"

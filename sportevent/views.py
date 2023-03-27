@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from profiles.models import Athlete
 from profiles.forms import AthleteForm
 from sportevent import tasks
-from sportevent.models import Event, Distance, RegisterDistanceAthlete
+from sportevent.models import Event, Distance, RegisterDistanceAthlete, ResultEvent
 
 
 class IndexView(generic.TemplateView):
@@ -77,12 +77,27 @@ class RegisterAthleteDistanceView(LoginRequiredMixin, generic.DetailView):
                 request, _("Вітаю! Ви успішно зареєструвалися."))
             return redirect(
                 reverse_lazy("sportevent:register_athlete_distance",
-                             kwargs={"pk": self.object.id}))
+                             kwargs={"pk": pk}))
         messages.error(
             request, _("Не вірно введені дані."))
         return redirect(
             reverse_lazy(
-                'sportevent:register_athlete_distance',
-                kwargs={"pk": pk}
-            )
+                'sportevent:register_athlete_distance', kwargs={"pk": pk})
         )
+
+
+class ResultsEventView(generic.ListView):
+    """ Results event view """
+    model = Event
+    queryset = Event.objects.filter(distances__registered_distance__results=1)
+    template_name = "sportevent/results_event_list.html"
+
+
+class ResultsEventDetailView(generic.DetailView):
+    """ Results event detail view """
+    model = ResultEvent
+    template_name = "sportevent/results_event_detail.html"
+
+    def get_context_data(self, **kwargs) -> dict:
+        """ Get the details of the results event"""
+        context = super().get_context_data(**kwargs)

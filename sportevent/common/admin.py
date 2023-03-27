@@ -1,9 +1,10 @@
+""" Application for basic admin panel """
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 
 class BaseAdmin(admin.ModelAdmin):
-    """Базовий клас зоготовка"""
+    """ Basic model-workpiece """
 
     readonly_fields = ("id", "created_at", "updated_at",)
     fieldsets = (

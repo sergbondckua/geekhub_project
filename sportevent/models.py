@@ -98,7 +98,8 @@ class RegisterDistanceAthlete(BaseModel):
     def __str__(self) -> str:
         """ A string representation of an instance of a class """
         return f"{self.athlete.first_name} {self.athlete.last_name} - " \
-               f"{self.distance.distance_in_unit}: {self.start_number}"
+               f"{self.distance.event.title} " \
+               f"({self.distance.distance_in_unit}): {self.start_number}"
 
     class Meta:
         """ Meta class """
@@ -109,15 +110,28 @@ class RegisterDistanceAthlete(BaseModel):
 
 class ResultEvent(BaseModel):
     """ Results of the event """
-    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, verbose_name=_("Захід"), on_delete=models.CASCADE)
-    result_time = models.TimeField(_("Результат"))
+    athlete = models.ForeignKey(
+        RegisterDistanceAthlete,
+        verbose_name=_("Атлет"),
+        on_delete=models.CASCADE,
+        related_name="results",
+    )
+    result_time = models.DurationField(
+        verbose_name=_("Час результату"),
+        blank=True,
+        null=True,
+    )
 
     def __str__(self) -> str:
-        return f"{self.athlete.last_name} - {self.event.title} ({self.result_time})"
+        """ A string representation of an instance of a class """
+        return f"{self.athlete.athlete.first_name} " \
+               f"{self.athlete.athlete.last_name} - " \
+               f"{self.athlete.distance.event.title} - " \
+               f"{self.athlete.distance.title} - " \
+               f"{self.athlete.distance.distance_in_unit}: {self.result_time}"
 
     class Meta:
         """ Meta class """
-        ordering = ("-created_at",)
-        verbose_name = _("Результати заходу")
-        verbose_name_plural = _("Результати заходів")
+        ordering = ("result_time",)
+        verbose_name = _("Результат атлета на дистанції")
+        verbose_name_plural = _("Результати атлетів на дистанції")

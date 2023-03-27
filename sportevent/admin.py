@@ -1,10 +1,8 @@
 """Admin"""
 from django.contrib import admin
-# from django.contrib.auth.admin import UserAdmin
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-# from sportevent.models import Athlete
 from sportevent.models import Event
 from sportevent.models import Distance
 from sportevent.models import ResultEvent
@@ -17,6 +15,10 @@ class RegisterDistanceAthleteInLine(admin.TabularInline):
     """Athlete in line to Distance"""
     model = RegisterDistanceAthlete
     extra = 1
+
+
+class ResultEventInline(admin.TabularInline):
+    model = ResultEvent
 
 
 @admin.register(Distance)
@@ -78,10 +80,37 @@ class EventAdmin(BaseAdmin):
 @admin.register(ResultEvent)
 class ResultEventAdmin(BaseAdmin):
     """ Admin interface for results """
+    list_filter = ("athlete",)
+    list_display = ("athlete", "result_time",)
+    list_editable = ("result_time",)
     fieldsets = (
                     (_("Інформація спорт заходу"),
-                     {"fields": ("event", "athlete", "result_time",)}),
+                     {"fields": ("athlete", "result_time",)}),
                 ) + BaseAdmin.fieldsets
+
+
+@admin.register(RegisterDistanceAthlete)
+class RegisterDistanceAthleteAdmin(BaseAdmin):
+    """ Admin interface for registering distances """
+    list_display = ("start_number", "athlete", "distance", "result_time",)
+    readonly_fields = BaseAdmin.readonly_fields + ("start_number", "athlete", "distance",)
+    list_filter = ("distance", "athlete",)
+    search_fields = ("start_number",)
+    inlines = [ResultEventInline]
+    fieldsets = (
+                    (_("Деталі реєстрації"),
+                     {"fields": (
+                         "distance",
+                         "start_number",
+                         "athlete",
+                     )}),
+                ) + BaseAdmin.fieldsets
+
+    def result_time(self, obj):
+        for q in obj.results.all():
+            return q.result_time if q.result_time else None
+
+    result_time.short_description = _("Результат")
 
 
 admin.site.site_title = "CrossRunChe manager"
