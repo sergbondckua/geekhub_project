@@ -38,13 +38,9 @@ class Event(BaseModel):
     )
 
     def __str__(self):
-        """
-        A string representation of an instance of a class
-        """
         return self.title
 
     class Meta:
-        """ Meta class for events """
         ordering = ("-date_event",)
         verbose_name = _("Спортивний захід")
         verbose_name_plural = _("Спортивні заходи")
@@ -58,15 +54,13 @@ class Distance(BaseModel):
         Event,
         verbose_name=_("Спорт захід"),
         related_name="distances",
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     def __str__(self) -> str:
-        """ A string representation of an instance of a class """
         return f"{self.event} -- {self.title}: {self.distance_in_unit}"
 
     class Meta:
-        """Meta клас"""
         ordering = ("-distance_in_unit",)
         verbose_name = _("Дистанція")
         verbose_name_plural = _("Дистанції")
@@ -78,7 +72,7 @@ class RegisterDistanceAthlete(BaseModel):
         Distance,
         verbose_name=_("Дистанція"),
         on_delete=models.CASCADE,
-        related_name="registered_distance"
+        related_name="registered_distance",
     )
     athlete = models.ForeignKey(
         Athlete,
@@ -96,13 +90,11 @@ class RegisterDistanceAthlete(BaseModel):
     )
 
     def __str__(self) -> str:
-        """ A string representation of an instance of a class """
         return f"{self.athlete.first_name} {self.athlete.last_name} - " \
                f"{self.distance.event.title} " \
                f"({self.distance.distance_in_unit}): {self.start_number}"
 
     class Meta:
-        """ Meta class """
         ordering = ("start_number",)
         verbose_name = _("Атлета на дистанцію")
         verbose_name_plural = _("Зареєстровані атлети на дистанції")
@@ -113,6 +105,7 @@ class ResultEvent(BaseModel):
     athlete = models.ForeignKey(
         RegisterDistanceAthlete,
         verbose_name=_("Атлет"),
+        # TODO: make this set default
         on_delete=models.CASCADE,
         related_name="results",
     )
@@ -123,7 +116,6 @@ class ResultEvent(BaseModel):
     )
 
     def __str__(self) -> str:
-        """ A string representation of an instance of a class """
         return f"{self.athlete.athlete.first_name} " \
                f"{self.athlete.athlete.last_name} - " \
                f"{self.athlete.distance.event.title} - " \
@@ -131,7 +123,6 @@ class ResultEvent(BaseModel):
                f"{self.athlete.distance.distance_in_unit}: {self.result_time}"
 
     class Meta:
-        """ Meta class """
-        ordering = ("result_time",)
+        ordering = ("-result_time",)
         verbose_name = _("Результат атлета на дистанції")
         verbose_name_plural = _("Результати атлетів на дистанції")

@@ -1,9 +1,12 @@
 {% extends "sportevent/base.html" %}
 
 {% block title %}
-  Результати
+  Результати заходів
 {% endblock %}
 
 {% block content %}
-
+  {{ event.title }}
+  {% for event in event_list %}
+    <a href="{% url 'sportevent:results-detail' event.id %}">{{ event.title }}</a><br>
+  {% endfor %}
 {% endblock %}

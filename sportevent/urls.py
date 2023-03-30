@@ -1,12 +1,12 @@
 """URLs"""
 from django.urls import path
-from . import views
+from sportevent import views
 
 urlpatterns = [
     path("index/", views.IndexView.as_view(), name="index"),
     path("", views.EventsListView.as_view(), name="events"),
     path(
-        "events/<int:pk>/",
+        "event/<int:pk>/",
         views.EventDetailView.as_view(),
         name="event-detail"
     ),
@@ -16,12 +16,12 @@ urlpatterns = [
         name="register_athlete_distance"
     ),
     path(
-        "results/",
+        "event/results/",
         views.ResultsEventView.as_view(),
         name="results",
     ),
     path(
-            "results/<int:pk>/",
+            "event/<int:pk>/result",
             views.ResultsEventDetailView.as_view(),
             name="results-detail",
         ),

@@ -1,7 +1,7 @@
 """Views"""
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.utils.translation import gettext_lazy as _
@@ -86,18 +86,25 @@ class RegisterAthleteDistanceView(LoginRequiredMixin, generic.DetailView):
         )
 
 
-class ResultsEventView(generic.ListView):
-    """ Results event view """
-    model = Event
-    queryset = Event.objects.filter(distances__registered_distance__results=1)
-    template_name = "sportevent/results_event_list.html"
-
-
 class ResultsEventDetailView(generic.DetailView):
     """ Results event detail view """
-    model = ResultEvent
+    model = Event
     template_name = "sportevent/results_event_detail.html"
 
-    def get_context_data(self, **kwargs) -> dict:
-        """ Get the details of the results event"""
+    def get_context_data(self, **kwargs):
+        """ Add the event to the context """
         context = super().get_context_data(**kwargs)
+        event_id = self.object.id
+        event = None
+        if event_id:
+            event = ResultEvent.objects.filter(
+                athlete__distance__event_id=event_id)
+        context["results"] = event
+        return context
+
+
+class ResultsEventView(generic.ListView):
+    """ View for displaying the results of an event """
+    model = Event
+    template_name = "sportevent/results_event_list.html"
+    paginate_by = 6
