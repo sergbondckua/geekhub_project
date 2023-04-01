@@ -49,10 +49,10 @@
 })(window.jQuery);
 
 $(document).ready(function () {
-    $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+    $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function () {
         $.fn.dataTable.tables({visible: true, api: true}).columns.adjust();
     });
-    let t = $('table.tbl').DataTable(
+    $('table.tbl').DataTable(
         {
             order: [[7, 'asc']],
             columnDefs: [
@@ -68,6 +68,10 @@ $(document).ready(function () {
             ],
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/uk.json',
+            },
+            rowCallback: function (row, data, index) {
+                let idx = index + 1;
+                $('th:eq(0)', row).html(idx);
             },
 
             initComplete: function () {
@@ -93,9 +97,4 @@ $(document).ready(function () {
             },
         }
     );
-    t.on( 'order.dt search.dt', function () {
-        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();
 });

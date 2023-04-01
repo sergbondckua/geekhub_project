@@ -11,12 +11,15 @@
         <li class="nav-item">
           <a class="nav-link" href="/">Головна</a>
         </li>
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'sportevent:results' %}">Результати</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Команда клубу</a>
         </li>
         <li class="nav-item dropdown">
           {% if user.is_authenticated %}
-            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button"
+            <a class="nav-link dropdown-toggle btn custom-btn custom-border-btn smoothscroll" href="#" id="navbarLightDropdownMenuLink" role="button"
                data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
             <li><a class="dropdown-item" href="{% url 'profiles:athlete_distances_register' %}">Мої змагання</a></li>

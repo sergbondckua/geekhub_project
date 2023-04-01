@@ -91,17 +91,6 @@ class ResultsEventDetailView(generic.DetailView):
     model = Event
     template_name = "sportevent/results_event_detail.html"
 
-    def get_context_data(self, **kwargs):
-        """ Add the event to the context """
-        context = super().get_context_data(**kwargs)
-        event_id = self.object.id
-        event = None
-        if event_id:
-            event = ResultEvent.objects.filter(
-                athlete__distance__event_id=event_id)
-        context["results"] = event
-        return context
-
 
 class ResultsEventView(generic.ListView):
     """ View for displaying the results of an event """
