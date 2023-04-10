@@ -15,7 +15,7 @@
           <a class="nav-link" href="{% url 'sportevent:results' %}">Результати</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Команда клубу</a>
+          <a class="nav-link" href="{% url 'mainpages:static_page' 'club_team' %}">Команда клубу</a>
         </li>
         <li class="nav-item dropdown">
           {% if user.is_authenticated %}

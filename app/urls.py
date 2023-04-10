@@ -23,6 +23,9 @@ urlpatterns = [
     path("", include("sportevent.urls")),
     path("accounts/", include('allauth.urls')),
     path("", include("profiles.urls")),
+    path("", include("mainpages.urls")),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+
 ]
 
 if settings.DEBUG:

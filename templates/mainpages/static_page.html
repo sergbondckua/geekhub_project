@@ -1,0 +1,12 @@
+{% extends "sportevent/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+  {{ page.title }}
+{% endblock %}
+
+{% block content %}
+
+  {{ page.content|safe }}
+
+{% endblock %}

@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "fontawesomefree",
     "django_cleanup.apps.CleanupConfig",
+    "ckeditor",
+    "ckeditor_uploader",
     # all-auth
     "allauth",
     "allauth.account",
@@ -62,6 +64,7 @@ INSTALLED_APPS = [
     # Custom apps
     "profiles",
     "sportevent",
+    "mainpages",
 
 ]
 
@@ -142,6 +145,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_DIR = os.path.join(BASE_DIR, "static").replace("\\", "/")
 STATICFILES_DIRS = [STATIC_DIR]
+# STATIC_ROOT = os.path.join(BASE_DIR, "static").replace("\\", "/")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media").replace("\\", "/")
@@ -165,6 +169,8 @@ MESSAGE_TAGS = {
 }
 
 LOGIN_REDIRECT_URL = "/"
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # ALL-AUTH
 AUTHENTICATION_BACKENDS = [

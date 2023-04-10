@@ -1,6 +1,6 @@
 """Models"""
 import os
-import random
+import uuid
 
 from django.conf import settings
 from django.db import models
@@ -18,7 +18,7 @@ class Event(BaseModel):
         """ Generates path and filename to save """
         ext = filename.rsplit(".", 1)[-1]
         result = f"event/posters/poster_event_" \
-                 f"{random.randint(1, 999)}_{self.date_event}.{ext}"
+                 f"{str(uuid.uuid4())}_{self.date_event}.{ext}"
         path = os.path.join(settings.MEDIA_ROOT, result)
         if os.path.exists(path):
             os.remove(path)
@@ -105,9 +105,9 @@ class ResultEvent(BaseModel):
     athlete = models.ForeignKey(
         RegisterDistanceAthlete,
         verbose_name=_("Атлет"),
-        # TODO: make this set default
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="results",
+        null=True,
     )
     result_time = models.DurationField(
         verbose_name=_("Час результату"),

@@ -1,4 +1,3 @@
-"""URLs"""
 from django.urls import path
 from sportevent import views
 
