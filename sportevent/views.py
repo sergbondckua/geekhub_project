@@ -1,15 +1,17 @@
 """Views"""
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views import generic
 from django.utils.translation import gettext_lazy as _
 
 from profiles.models import Athlete
 from profiles.forms import AthleteForm
 from sportevent import tasks
-from sportevent.models import Event, Distance, RegisterDistanceAthlete, ResultEvent
+from sportevent.models import Event, Distance, RegisterDistanceAthlete
 
 
 class IndexView(generic.TemplateView):
@@ -20,6 +22,7 @@ class IndexView(generic.TemplateView):
 class EventsListView(generic.ListView):
     """ List of all events """
     model = Event
+    queryset = Event.objects.filter(registration_end_date__gt=timezone.now())
     paginate_by = 6
 
 
@@ -52,7 +55,15 @@ class RegisterAthleteDistanceView(LoginRequiredMixin, generic.DetailView):
                 "city": self.request.user.city,
                 "club": self.request.user.club,
             } if not self.request.user.is_anonymous else None
-            context["form"] = AthleteForm(initial=initial)
+            if timezone.now().replace(microsecond=0) < \
+                    self.object.event.registration_end_date:
+                context["form"] = AthleteForm(initial=initial)
+            else:
+                messages.error(
+                    self.request, _(
+                        "Registration date is outside of the allowed period."))
+                print(timezone.now().replace(microsecond=0))
+                print(self.object.event.registration_end_date)
         return context
 
     def post(self, request, pk: int) -> redirect:
@@ -82,7 +93,7 @@ class RegisterAthleteDistanceView(LoginRequiredMixin, generic.DetailView):
             request, _("Не вірно введені дані."))
         return redirect(
             reverse_lazy(
-                'sportevent:register_athlete_distance', kwargs={"pk": pk})
+                "sportevent:register_athlete_distance", kwargs={"pk": pk})
         )
 
 
@@ -95,5 +106,6 @@ class ResultsEventDetailView(generic.DetailView):
 class ResultsEventView(generic.ListView):
     """ View for displaying the results of an event """
     model = Event
+    queryset = Event.objects.filter(registration_end_date__lt=timezone.now())
     template_name = "sportevent/results_event_list.html"
     paginate_by = 6

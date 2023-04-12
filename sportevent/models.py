@@ -1,33 +1,29 @@
 """Models"""
-import os
-import uuid
 
-from django.conf import settings
+from datetime import timedelta
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from profiles.models import Athlete
 from sportevent.common.models import BaseModel
+from sportevent.service import generate_path
 
 
 class Event(BaseModel):
     """ Sports event """
 
-    def generate_path(self, filename):
-        """ Generates path and filename to save """
-        ext = filename.rsplit(".", 1)[-1]
-        result = f"event/posters/poster_event_" \
-                 f"{str(uuid.uuid4())}_{self.date_event}.{ext}"
-        path = os.path.join(settings.MEDIA_ROOT, result)
-        if os.path.exists(path):
-            os.remove(path)
-        return result
-
     title = models.CharField(_("Назва"), max_length=100)
     date_event = models.DateField(_("Дата проведення"))
+    registration_end_date = models.DateTimeField(
+        _("Registration end date"),
+        default=None,
+        help_text=_("Enter the end date of registration for the event"),
+    )
     location = models.CharField(_("Місце проведення"), max_length=200)
-    description = models.TextField(_("Опис"), blank=True)
+    description = models.TextField(_("Опис"), blank=True, null=True)
     poster = models.ImageField(
         _("Постер"),
         blank=True,
@@ -50,11 +46,20 @@ class Distance(BaseModel):
     """ Distance """
     title = models.CharField(_("Назва"), max_length=50)
     distance_in_unit = models.PositiveSmallIntegerField(_("Дистанція"))
+    description = models.TextField(_("Description"), blank=True, null=True)
+    road_map = models.TextField(_("Road map"), blank=True, null=True)
     event = models.ForeignKey(
         Event,
         verbose_name=_("Спорт захід"),
         related_name="distances",
         on_delete=models.CASCADE,
+    )
+    road_map_image = models.ImageField(
+        _("Road map image"),
+        blank=True,
+        null=True,
+        upload_to=generate_path,
+        help_text=_("Download image: (PNG, JPEG, JPG)"),
     )
 
     def __str__(self) -> str:
@@ -88,6 +93,14 @@ class RegisterDistanceAthlete(BaseModel):
         blank=True,
         null=True,
     )
+
+    def save(self, *args, **kwargs):
+        if timezone.now().replace(microsecond=0) > \
+                self.distance.event.registration_end_date.replace(
+                    microsecond=0):
+            raise ValueError(
+                'Registration date is outside of the allowed period')
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f"{self.athlete.first_name} {self.athlete.last_name} - " \

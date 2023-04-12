@@ -19,6 +19,7 @@ class RegisterDistanceAthleteInLine(admin.TabularInline):
 
 class ResultEventInline(admin.TabularInline):
     model = ResultEvent
+    extra = 1
 
 
 @admin.register(Distance)
@@ -33,9 +34,12 @@ class DistanceAdmin(BaseAdmin):
                     (_("Деталі дистанції"),
                      {"fields": (
                          "id",
+                         "event",
                          "title",
                          "distance_in_unit",
-                         "event",
+                         "description",
+                         "road_map",
+                         "road_map_image",
                      )}),
                 ) + BaseAdmin.fieldsets
 
@@ -61,6 +65,7 @@ class EventAdmin(BaseAdmin):
                      {"fields": (
                          "title",
                          "date_event",
+                         "registration_end_date",
                          "location",
                          "description",
                          ("poster", "get_image",),

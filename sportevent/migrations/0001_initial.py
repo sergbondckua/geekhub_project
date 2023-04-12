@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import sportevent.models
+from sportevent.service import generate_path
 
 
 class Migration(migrations.Migration):
@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
                         default=None,
                         help_text="Завантажити зображення: (PNG, JPEG, JPG)",
                         null=True,
-                        upload_to=sportevent.models.Event.generate_path,
+                        upload_to=generate_path,
                         verbose_name="Постер",
                     ),
                 ),
