@@ -77,11 +77,11 @@
             <a href="/" class="site-footer-link">Головна</a>
           </li>
           <li class="site-footer-link-item">
-            <a href="#" class="site-footer-link">FAQ</a>
+            <a href="{% url 'mainpages:static_page' 'faq' %}" class="site-footer-link">FAQ</a>
           </li>
 
           <li class="site-footer-link-item">
-            <a href="#" class="site-footer-link">Контакти</a>
+            <a href="{% url 'mainpages:static_page' 'contacts' %}" class="site-footer-link">Контакти</a>
           </li>
         </ul>
       </div>

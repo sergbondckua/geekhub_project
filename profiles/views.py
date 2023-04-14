@@ -1,8 +1,8 @@
 """ Views profiles """
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import QuerySet
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import UpdateView, DetailView, ListView
 from django.utils.translation import gettext_lazy as _
 from django.contrib.messages.views import SuccessMessageMixin
@@ -35,8 +35,18 @@ class AthleteDistancesRegister(LoginRequiredMixin, ListView):
     context_object_name = "athlete_distances_list"
     template_name = "profiles/athlete_distances_list.html"
 
-    def get_queryset(self) -> QuerySet:
+    def get_queryset(self):
         queryset = self.model.objects.get(
-            id=self.request.user.id).registered_distance.all().order_by(
+            id=self.request.user.id).registered_distance.all().filter(
+            distance__event__date_event__gt=timezone.now()).order_by(
             "distance__event__date_event")
         return queryset
+
+    def get_context_data(self, **kwargs):
+        """Call the base implementation first to get a context."""
+        context = super().get_context_data(**kwargs)
+        context["past_events"] = self.model.objects.get(
+            id=self.request.user.id).registered_distance.all().filter(
+            distance__event__date_event__lt=timezone.now()).order_by(
+            "distance__event__date_event")
+        return context

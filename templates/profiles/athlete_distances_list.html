@@ -21,38 +21,86 @@
           <div class="col-lg-12 col-sm-4">
             <div class="table-responsive">
               {% if athlete_distances_list %}
-              <table class="table caption-top">
-                <caption></caption>
-                <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Дата</th>
-                  <th scope="col">Назва заходу</th>
-                  <th scope="col">Назва дистанції</th>
-                  <th scope="col">Дистанція (км)</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for item in athlete_distances_list %}
+                <table class="table caption-top">
+                  <caption>Заплановані змагання</caption>
+                  <thead>
                   <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ item.distance.event.date_event }}</td>
-                    <td>
-                      <a href="{% url 'sportevent:event-detail' item.distance.event.id %}">
-                        {{ item.distance.event.title }}</a>
-                    </td>
-                    <td>{{ item.distance.title }}</td>
-                    <td><span class="fs-6 badge bg-info">{{ item.distance.distance_in_unit }}</span></td>
+                    <th scope="col">#</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Назва заходу</th>
+                    <th scope="col">Назва дистанції</th>
+                    <th scope="col">Дистанція (км)</th>
                   </tr>
-                {% endfor %}
-                </tbody>
-              </table>
-            {% else %}
-              <span class="text-muted">Немає жодної реєєстрації на заходи</span>
-            {% endif %}
+                  </thead>
+                  <tbody>
+                  {% for item in athlete_distances_list %}
+                    <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td>{{ item.distance.event.date_event }}</td>
+                      <td>
+                        <a href="{% url 'sportevent:event-detail' item.distance.event.id %}">
+                          {{ item.distance.event.title }}</a>
+                      </td>
+                      <td>{{ item.distance.title }}</td>
+                      <td><span class="fs-6 badge bg-info">{{ item.distance.distance_in_unit }}</span></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <span class="text-muted">Немає жодної реєстрації на заходи</span>
+              {% endif %}
             </div>
           </div>
         </div>
+
+        <p></p>
+
+        <div class="row">
+          <div class="col-lg-12 col-sm-4">
+            <div class="table-responsive">
+              {% if past_events %}
+                <table class="table caption-top">
+                  <caption>Завершені змагання</caption>
+                  <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Назва заходу</th>
+                    <th scope="col">Назва дистанції</th>
+                    <th scope="col">Результат</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for item in past_events %}
+                    <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td>{{ item.distance.event.date_event }}</td>
+                      <td>
+                        <a href="{% url 'sportevent:results-detail' item.distance.event.id %}">
+                          {{ item.distance.event.title }}</a>
+                      </td>
+                      <td>
+                        {{ item.distance.title }}
+                      </td>
+                      <td>
+                        <span class="fs-6 badge bg-info">
+                        {% for result in item.results.all %}
+                          {{ result.result_time }}
+                        {% endfor %}
+                      </span>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <span class="text-muted">Немає завершених змагань</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>

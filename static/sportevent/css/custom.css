@@ -595,6 +595,7 @@ main {
     overflow: hidden;
     padding: 30px;
     transition: all 0.3s ease;
+    height: 100%;
 }
 
 .custom-block:hover {
@@ -606,14 +607,13 @@ main {
 
 .custom-block-info {
     display: block;
-    padding: 10px 20px;
-    padding-bottom: 0;
+    padding: 10px 20px 0;
 }
 
 .custom-block-image-wrap {
     position: relative;
     display: block;
-    height: 100%;
+    /*height: 100%;*/
 }
 
 .custom-block-image-wrap > a {
@@ -623,8 +623,8 @@ main {
 .custom-block-image {
     border-radius: var(--border-radius-medium);
     display: block;
-    width: 112px;
-    height: 112px;
+    width: 120px;
+    height: 120px;
     object-fit: cover;
 }
 
