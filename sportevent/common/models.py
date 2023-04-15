@@ -7,8 +7,8 @@ class BaseModel(models.Model):
     """
     Basic model-workpiece
     """
-    created_at = models.DateTimeField(_("Створено"), auto_now_add=True)
-    updated_at = models.DateTimeField(_("Оновлено"), auto_now=True)
+    created_at = models.DateTimeField(_("Created"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Updated"), auto_now=True)
 
     class Meta:
         abstract = True

@@ -8,7 +8,7 @@ class BaseAdmin(admin.ModelAdmin):
 
     readonly_fields = ("id", "created_at", "updated_at",)
     fieldsets = (
-        (_("Інфо запису"),
+        (_("Record info"),
          {"fields": (
              "created_at",
              "updated_at",

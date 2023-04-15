@@ -12,47 +12,49 @@ class Athlete(AbstractUser):
     """ Custom full-featured user model """
 
     date_of_birth = models.DateField(
-        verbose_name=_("Дата народження"),
+        verbose_name=_("Date of birth"),
         blank=True,
         null=True,
     )
     gender = models.CharField(
-        verbose_name=_("Стать"),
+        verbose_name=_("Gender"),
         max_length=6,
         default=GenderChoices.MALE,
         choices=GenderChoices.choices,
     )
-    phone_regex = RegexValidator(regex=r"^\+?1?\d{9,13}$",
-                                 message="Номер телефону у форматі: "
-                                         "'+380999999'. Дозволено до 13 цифр.",
-                                 )
+    phone_regex = RegexValidator(
+        regex=r"^\+?1?\d{9,13}$",
+        message=_(
+            "Phone number in the format: '+380999999'. Up to 13 digits allowed."
+        ),
+    )
     phone = models.CharField(
-        verbose_name=_("Номер телефону"),
+        verbose_name=_("Phone number"),
         validators=[phone_regex],
         max_length=13,
         blank=True,
         null=True,
     )
     emergency_contact_name = models.CharField(
-        verbose_name=_("Ім'я екстреного контакту"),
+        verbose_name=_("Emergency contact name"),
         max_length=50,
         blank=True,
         null=True,
     )
     emergency_contact_phone = models.CharField(
-        verbose_name=_("Номер телефону екстреного контакту"),
+        verbose_name=_("Emergency contact phone number"),
         max_length=15,
         blank=True,
         null=True,
     )
     city = models.CharField(
-        verbose_name=_("Населений пункт"),
+        verbose_name=_("City"),
         max_length=100,
         blank=True,
         null=True,
     )
     club = models.CharField(
-        verbose_name=_("Спортивний клуб"),
+        verbose_name=_("Sport Club"),
         max_length=100,
         blank=True,
         null=True,

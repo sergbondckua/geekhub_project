@@ -13,22 +13,22 @@ from sportevent.service import generate_path
 class Event(BaseModel):
     """ Sports event """
 
-    title = models.CharField(_("Назва"), max_length=100)
-    date_event = models.DateField(_("Дата проведення"))
+    title = models.CharField(_("Title"), max_length=100)
+    date_event = models.DateField(_("Date of the event"))
     registration_end_date = models.DateTimeField(
         _("Registration end date"),
         default=None,
         help_text=_("Enter the end date of registration for the event"),
     )
-    location = models.CharField(_("Місце проведення"), max_length=200)
-    description = models.TextField(_("Опис"), blank=True, null=True)
+    location = models.CharField(_("Event location"), max_length=200)
+    description = models.TextField(_("Description"), blank=True, null=True)
     poster = models.ImageField(
-        _("Постер"),
+        _("Poster"),
         blank=True,
         null=True,
         upload_to=generate_path,
         default=None,
-        help_text=_("Завантажити зображення: (PNG, JPEG, JPG)"),
+        help_text=_("Upload image: (PNG, JPEG, JPG)"),
     )
 
     def __str__(self):
@@ -36,19 +36,19 @@ class Event(BaseModel):
 
     class Meta:
         ordering = ("-date_event",)
-        verbose_name = _("Спортивний захід")
-        verbose_name_plural = _("Спортивні заходи")
+        verbose_name = _("Sports event")
+        verbose_name_plural = _("Sports events")
 
 
 class Distance(BaseModel):
     """ Distance """
-    title = models.CharField(_("Назва"), max_length=50)
-    distance_in_unit = models.PositiveSmallIntegerField(_("Дистанція"))
+    title = models.CharField(_("Title"), max_length=50)
+    distance_in_unit = models.PositiveSmallIntegerField(_("Distance"))
     description = models.TextField(_("Description"), blank=True, null=True)
     road_map = models.TextField(_("Road map"), blank=True, null=True)
     event = models.ForeignKey(
         Event,
-        verbose_name=_("Спорт захід"),
+        verbose_name=_("Sports event"),
         related_name="distances",
         on_delete=models.CASCADE,
     )
@@ -57,7 +57,7 @@ class Distance(BaseModel):
         blank=True,
         null=True,
         upload_to=generate_path,
-        help_text=_("Download image: (PNG, JPEG, JPG)"),
+        help_text=_("Upload image: (PNG, JPEG, JPG)"),
     )
 
     def __str__(self) -> str:
@@ -65,28 +65,28 @@ class Distance(BaseModel):
 
     class Meta:
         ordering = ("-distance_in_unit",)
-        verbose_name = _("Дистанція")
-        verbose_name_plural = _("Дистанції")
+        verbose_name = _("Distance")
+        verbose_name_plural = _("Distances")
 
 
 class RegisterDistanceAthlete(BaseModel):
     """ Registered athletes for the distance """
     distance = models.ForeignKey(
         Distance,
-        verbose_name=_("Дистанція"),
+        verbose_name=_("Distance"),
         on_delete=models.CASCADE,
         related_name="registered_distance",
     )
     athlete = models.ForeignKey(
         Athlete,
-        verbose_name=_("Атлети"),
+        verbose_name=_("Athletes"),
         on_delete=models.CASCADE,
         related_name="registered_distance",
         blank=True,
         null=True,
     )
     start_number = models.PositiveSmallIntegerField(
-        verbose_name=_("Номер учасника"),
+        verbose_name=_("Starting number"),
         unique=False,
         blank=True,
         null=True,
@@ -108,20 +108,20 @@ class RegisterDistanceAthlete(BaseModel):
     class Meta:
         ordering = ("start_number",)
         verbose_name = _("Атлета на дистанцію")
-        verbose_name_plural = _("Зареєстровані атлети на дистанції")
+        verbose_name_plural = _("Registered distance athletes")
 
 
 class ResultEvent(BaseModel):
     """ Results of the event """
     athlete = models.ForeignKey(
         RegisterDistanceAthlete,
-        verbose_name=_("Атлет"),
+        verbose_name=_("Athlete"),
         on_delete=models.SET_NULL,
         related_name="results",
         null=True,
     )
     result_time = models.DurationField(
-        verbose_name=_("Час результату"),
+        verbose_name=_("Result time"),
         blank=True,
         null=True,
     )
@@ -135,5 +135,5 @@ class ResultEvent(BaseModel):
 
     class Meta:
         ordering = ("-result_time",)
-        verbose_name = _("Результат атлета на дистанції")
-        verbose_name_plural = _("Результати атлетів на дистанції")
+        verbose_name = _("Athlete results at the distance")
+        verbose_name_plural = _("Athletes results at the distance")
