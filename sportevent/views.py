@@ -22,7 +22,8 @@ class IndexView(generic.TemplateView):
 class EventsListView(generic.ListView):
     """ List of all events """
     model = Event
-    queryset = Event.objects.filter(registration_end_date__gt=timezone.now())
+    queryset = Event.objects.filter(
+        registration_end_date__gt=timezone.now()).order_by("date_event")
     paginate_by = 6
 
 
