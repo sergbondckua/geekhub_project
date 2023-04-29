@@ -6,21 +6,42 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        {% if event.poster %}
-          <img src="{{ event.poster.url }}" class="rounded float-start" alt="{{ event.title }}">
-        {% endif %}
-      </div>
-      <div class="col">
-        <h2 class="mb-5">
-          {{ event.title }}
-        </h2>
-      </div>
+  <section class="detail-event-section section-padding pb-0" id="section_2">
+    <div class="container">
+      <div class="row justify-content-center">
 
+        <div class="col-lg-10 col-12">
+          <div class="section-title-wrap mb-5">
+            <h4 class="section-title">{{ event.date_event }}</h4>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-3 col-12">
+              <div class="custom-block-icon-wrap">
+                {% if event.poster %}
+                  <div class="custom-block-image-wrap custom-block-image-detail-page">
+                    <img
+                        src="{{ event.poster.url }}"
+                        class="custom-block-image img-fluid" alt="">
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="col-lg-9 col-12">
+              <div class="custom-block-info">
+                <div class="custom-block-top d-flex mb-1">
+                  <!--Text-->
+                </div>
+                <h2 class="mb-2">{{ event.title }}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
+  </section>
 
   <section class="athlethes-list-section section-padding">
     <div class="container">

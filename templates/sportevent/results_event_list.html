@@ -19,12 +19,13 @@
         {% for event in event_list %}
           <div class="col-lg-4 col-12 mb-4 mb-lg-0">
             <div class="custom-block custom-block-full">
-              <div class="custom-block-image-wrap">
-                <a href="{% url 'sportevent:results-detail' event.id %}">
-                  <img src="{{ event.poster.url }}" class="custom-block-image img-fluid" alt="">
-                </a>
-              </div>
-
+              {% if event.poster %}
+                <div class="custom-block-image-wrap">
+                  <a href="{% url 'sportevent:results-detail' event.id %}">
+                    <img src="{{ event.poster.url }}" class="custom-block-image img-fluid" alt="">
+                  </a>
+                </div>
+              {% endif %}
               <div class="custom-block-info">
                 <h5 class="mb-2">
                   <a href="{% url 'sportevent:results-detail' event.id %}">

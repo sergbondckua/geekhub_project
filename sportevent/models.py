@@ -107,8 +107,8 @@ class RegisterDistanceAthlete(BaseModel):
 
     class Meta:
         ordering = ("start_number",)
-        verbose_name = _("Атлета на дистанцію")
-        verbose_name_plural = _("Registered distance athletes")
+        verbose_name = _("Athlete to distance")
+        verbose_name_plural = _("Registered athletes to distance")
 
 
 class ResultEvent(BaseModel):

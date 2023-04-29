@@ -14,7 +14,8 @@
 
   <div class="row">
     <div class="col-lg-8 col-sm-4">
-    {{ distance.description }}
+    {{ distance.description|safe }}
+      <p></p>
     {% if distance.road_map_image %}
       <img src="{{ distance.road_map_image.url }}" alt="{{ distance.title }}">
     {% endif %}

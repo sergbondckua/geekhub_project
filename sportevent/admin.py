@@ -7,6 +7,7 @@ from sportevent.models import Event
 from sportevent.models import Distance
 from sportevent.models import ResultEvent
 from sportevent.models import RegisterDistanceAthlete
+from sportevent.forms import EventAdminForm, DistanceAdminForm
 
 from sportevent.common.admin import BaseAdmin
 
@@ -30,8 +31,9 @@ class DistanceAdmin(BaseAdmin):
     search_fields = ("title",)
     inlines = [RegisterDistanceAthleteInLine]
     save_on_top = True
+    form = DistanceAdminForm
     fieldsets = (
-                    (_("Деталі дистанції"),
+                    (_("Distance details"),
                      {"fields": (
                          "id",
                          "event",
@@ -60,8 +62,9 @@ class EventAdmin(BaseAdmin):
     readonly_fields = BaseAdmin.readonly_fields + ("get_image",)
     save_on_top = True
     save_as = True
+    form = EventAdminForm
     fieldsets = (
-                    (_("Інформація спорт заходу"),
+                    (_("Event information"),
                      {"fields": (
                          "title",
                          "date_event",
@@ -79,7 +82,7 @@ class EventAdmin(BaseAdmin):
                 f'<img src={obj.poster.url} width="120" height="100"')
         return None
 
-    get_image.short_description = "Мініатюра"
+    get_image.short_description = "Thumbs"
 
 
 @admin.register(ResultEvent)
@@ -89,7 +92,7 @@ class ResultEventAdmin(BaseAdmin):
     list_display = ("athlete", "result_time",)
     list_editable = ("result_time",)
     fieldsets = (
-                    (_("Інформація спорт заходу"),
+                    (_("Event information"),
                      {"fields": ("athlete", "result_time",)}),
                 ) + BaseAdmin.fieldsets
 
@@ -103,7 +106,7 @@ class RegisterDistanceAthleteAdmin(BaseAdmin):
     search_fields = ("start_number",)
     inlines = [ResultEventInline]
     fieldsets = (
-                    (_("Деталі реєстрації"),
+                    (_("Registration details"),
                      {"fields": (
                          "distance",
                          "start_number",
@@ -112,10 +115,10 @@ class RegisterDistanceAthleteAdmin(BaseAdmin):
                 ) + BaseAdmin.fieldsets
 
     def result_time(self, obj):
-        for q in obj.results.all():
-            return q.result_time if q.result_time else None
+        for res in obj.results.all():
+            return res.result_time if res.result_time else None
 
-    result_time.short_description = _("Результат")
+    result_time.short_description = _("Result")
 
 
 admin.site.site_title = "CrossRunChe manager"

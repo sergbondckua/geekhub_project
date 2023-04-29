@@ -36,7 +36,7 @@
 
                 <h2 class="mb-2">{{ event.title }}</h2>
 
-                <p>{{ event.description }}</p>
+                <p>{{ event.description|safe }}</p>
 
                 <div
                     class="align-items-center mt-5">
@@ -58,6 +58,11 @@
                     {% endfor %}
                   </ul>
                 </div>
+                <p></p>
+                <p>
+                  <strong>Завершення реєстрації:</strong>
+                </p>
+                {{ event.registration_end_date }}
               </div>
             </div>
           </div>
