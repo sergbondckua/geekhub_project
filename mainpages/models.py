@@ -17,3 +17,8 @@ class StaticPage(BaseModel):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ("title",)
+        verbose_name = _("Static page")
+        verbose_name_plural = _("Static pages")
