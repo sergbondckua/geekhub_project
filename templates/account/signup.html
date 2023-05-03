@@ -1,7 +1,7 @@
 {% extends "sportevent/base.html" %}
 
 {% load i18n %}
-{% load django_bootstrap5 %}
+{% load crispy_forms_filters %}
 
 {% block title %}SignUp{% endblock %}
 
@@ -17,7 +17,7 @@
       <div class="col-lg-4 col-sm-12">
         <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
           {% csrf_token %}
-          {% bootstrap_form form %}
+          {{ form|crispy }}
           {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
           {% endif %}
