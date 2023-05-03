@@ -54,7 +54,7 @@ $(document).ready(function () {
     });
     $('table.tbl').DataTable(
         {
-            dom: 'frtip',
+            dom: 'frti',
             order: [[7, 'asc']],
             columnDefs: [
                 {
