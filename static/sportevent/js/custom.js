@@ -54,11 +54,15 @@ $(document).ready(function () {
     });
     $('table.tbl').DataTable(
         {
+            dom: 'frtip',
             order: [[7, 'asc']],
             columnDefs: [
                 {
                     orderable: false,
                     targets: [1, 2, 3, 4, 5, 6, 7]
+                },
+                {
+                    type: 'time-uni', targets: 7
                 },
                 {
                     searchable: false,
@@ -69,6 +73,10 @@ $(document).ready(function () {
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/uk.json',
             },
+            lengthMenu: [
+                [-1, 10, 15, 40],
+                ["♾️", 10, 15, 40],
+            ],
             rowCallback: function (row, data, index) {
                 let idx = index + 1;
                 $('th:eq(0)', row).html(idx);
