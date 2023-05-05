@@ -109,8 +109,8 @@
                             {% endif %}
                           </td>
                           <td>{{ item.athlete.date_of_birth|date:"Y" }}</td>
-                          <td>{{ item.athlete.city }}</td>
-                          <td>{{ item.athlete.club }}</td>
+                          <td>{% if item.athlete.city %}{{ item.athlete.city }}{% endif %}</td>
+                          <td>{% if item.athlete.club %}{{ item.athlete.club }} {% endif %}</td>
                           <th scope="row">
                             {% for result in item.results.all %}
                               {{ result.result_time }}
