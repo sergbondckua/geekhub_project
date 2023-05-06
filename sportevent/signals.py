@@ -9,8 +9,11 @@ def assign_start_number(sender, instance, **kwargs):
     """Assigns start number"""
     prefix = instance.distance.distance_in_unit
     if not instance.start_number:
-        last_participant = RegisterDistanceAthlete.objects.filter(
-            distance=instance.distance).order_by("-start_number").first()
+        last_participant = (
+            RegisterDistanceAthlete.objects.filter(distance=instance.distance)
+            .order_by("-start_number")
+            .first()
+        )
         if last_participant:
             instance.start_number = last_participant.start_number + 1
         else:

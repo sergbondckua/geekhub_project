@@ -9,7 +9,8 @@ from sportevent.models import Event, Distance
 
 
 class EventAdminForm(forms.ModelForm):
-    """Form for Event """
+    """Form for Event"""
+
     description = forms.CharField(
         label=_("Description"),
         widget=CKEditorUploadingWidget(),
@@ -17,11 +18,12 @@ class EventAdminForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = "__all__"
 
 
 class DistanceAdminForm(forms.ModelForm):
     """Form for Distance"""
+
     description = forms.CharField(
         label=_("Description"),
         widget=CKEditorUploadingWidget(),
@@ -29,4 +31,4 @@ class DistanceAdminForm(forms.ModelForm):
 
     class Meta:
         model = Distance
-        fields = '__all__'
+        fields = "__all__"

@@ -26,7 +26,7 @@ env = environ.Env(
 )
 
 # Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     "profiles",
     "sportevent",
     "mainpages",
-
 ]
 
 MIDDLEWARE = [
@@ -185,8 +184,8 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # ALL-AUTH
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_USERNAME_REQUIRED = True
@@ -200,7 +199,6 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
-# ACCOUNT_SIGNUP_FORM_CLASS = "profiles.forms.AthleteForm"
 ACCOUNT_MAX_EMAIL_ADDRESSES = 3
 
 # smtp settings

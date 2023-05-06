@@ -5,7 +5,8 @@ from mainpages.common.models import BaseModel
 
 
 class StaticPage(BaseModel):
-    """ A static page """
+    """A static page"""
+
     title = models.CharField(_("Title"), max_length=50)
     url = models.CharField(
         _("URL-name"),

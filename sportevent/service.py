@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 def send_registrant_for_distance(athlete_email, distance, event):
-    """ Send a email to the registrant for the race """
+    """Send a email to the registrant for the race"""
     subject = _("[crossrunche] Вітаємо! Ваша реєстрація була успішною!")
     message = _(
         f"Вітаємо! Ви успішно зареєструвалися на {event}. "
@@ -22,7 +22,7 @@ def send_registrant_for_distance(athlete_email, distance, event):
 
 
 def generate_path(instance, filename):
-    """ Generates path and filename to save """
+    """Generates path and filename to save"""
     title = slugify(instance.title).lower()
     try:
         event = slugify(instance.event.title).lower()

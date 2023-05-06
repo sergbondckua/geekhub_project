@@ -11,7 +11,7 @@ from sportevent.service import generate_path
 
 
 class Event(BaseModel):
-    """ Sports event """
+    """Sports event"""
 
     title = models.CharField(_("Title"), max_length=100)
     date_event = models.DateField(_("Date of the event"))
@@ -41,7 +41,8 @@ class Event(BaseModel):
 
 
 class Distance(BaseModel):
-    """ Distance """
+    """Distance"""
+
     title = models.CharField(_("Title"), max_length=50)
     distance_in_unit = models.PositiveSmallIntegerField(_("Distance"))
     description = models.TextField(_("Description"), blank=True, null=True)
@@ -70,7 +71,8 @@ class Distance(BaseModel):
 
 
 class RegisterDistanceAthlete(BaseModel):
-    """ Registered athletes for the distance """
+    """Registered athletes for the distance"""
+
     distance = models.ForeignKey(
         Distance,
         verbose_name=_("Distance"),
@@ -93,17 +95,18 @@ class RegisterDistanceAthlete(BaseModel):
     )
 
     def save(self, *args, **kwargs):
-        if timezone.now().replace(microsecond=0) > \
-                self.distance.event.registration_end_date.replace(
-                    microsecond=0):
-            raise ValueError(
-                'Registration date is outside of the allowed period')
+        if timezone.now().replace(
+            microsecond=0
+        ) > self.distance.event.registration_end_date.replace(microsecond=0):
+            raise ValueError("Registration date is outside of the allowed period")
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return f"{self.athlete.first_name} {self.athlete.last_name} - " \
-               f"{self.distance.event.title} " \
-               f"({self.distance.distance_in_unit}): {self.start_number}"
+        return (
+            f"{self.athlete.first_name} {self.athlete.last_name} - "
+            f"{self.distance.event.title} "
+            f"({self.distance.distance_in_unit}): {self.start_number}"
+        )
 
     class Meta:
         ordering = ("start_number",)
@@ -112,7 +115,8 @@ class RegisterDistanceAthlete(BaseModel):
 
 
 class ResultEvent(BaseModel):
-    """ Results of the event """
+    """Results of the event"""
+
     athlete = models.ForeignKey(
         RegisterDistanceAthlete,
         verbose_name=_("Athlete"),
@@ -127,11 +131,13 @@ class ResultEvent(BaseModel):
     )
 
     def __str__(self) -> str:
-        return f"{self.athlete.athlete.first_name} " \
-               f"{self.athlete.athlete.last_name} - " \
-               f"{self.athlete.distance.event.title} - " \
-               f"{self.athlete.distance.title} - " \
-               f"{self.athlete.distance.distance_in_unit}: {self.result_time}"
+        return (
+            f"{self.athlete.athlete.first_name} "
+            f"{self.athlete.athlete.last_name} - "
+            f"{self.athlete.distance.event.title} - "
+            f"{self.athlete.distance.title} - "
+            f"{self.athlete.distance.distance_in_unit}: {self.result_time}"
+        )
 
     class Meta:
         ordering = ("-result_time",)

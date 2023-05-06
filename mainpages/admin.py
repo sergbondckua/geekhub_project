@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
@@ -10,9 +9,21 @@ from mainpages.common.admin import BaseAdmin
 @admin.register(StaticPage)
 class StaticPageAdmin(BaseAdmin):
     """Static page admin"""
-    list_display = ("title", "url",)
+
+    list_display = (
+        "title",
+        "url",
+    )
     form = StaticPageAdminForm
     fieldsets = (
-                    (_("Detail page"),
-                     {"fields": ("title", "url", "content",)}),
-                ) + BaseAdmin.fieldsets
+        (
+            _("Detail page"),
+            {
+                "fields": (
+                    "title",
+                    "url",
+                    "content",
+                )
+            },
+        ),
+    ) + BaseAdmin.fieldsets

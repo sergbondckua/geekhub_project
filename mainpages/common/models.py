@@ -7,6 +7,7 @@ class BaseModel(models.Model):
     """
     Basic model-workpiece
     """
+
     created_at = models.DateTimeField(_("Create"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Update"), auto_now=True)
 

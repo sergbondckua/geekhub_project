@@ -5,6 +5,7 @@ from mainpages.models import StaticPage
 
 class StaticPageView(DetailView):
     """Static page"""
+
     model = StaticPage
     template_name = "mainpages/static_page.html"
     context_object_name = "page"

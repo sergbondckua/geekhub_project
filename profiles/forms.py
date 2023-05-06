@@ -11,6 +11,7 @@ class AthleteForm(forms.ModelForm):
 
     class Meta:
         """Meta class"""
+
         model = Athlete
         fields = (
             # "username",
@@ -30,8 +31,7 @@ class AthleteForm(forms.ModelForm):
             "email": forms.EmailInput(
                 attrs={"required": "True", "readonly": "True"}),
             "date_of_birth": forms.SelectDateWidget(
-                years=range(
-                    datetime.now().year - 70, datetime.now().year - 18),
+                years=range(datetime.now().year - 70, datetime.now().year - 18),
                 attrs={
                     "style": "width: auto; display: inline-block;",
                     "required": "True",

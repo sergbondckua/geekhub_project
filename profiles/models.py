@@ -9,7 +9,7 @@ from profiles.enums import GenderChoices
 
 
 class Athlete(AbstractUser):
-    """ Custom full-featured user model """
+    """Custom full-featured user model"""
 
     date_of_birth = models.DateField(
         verbose_name=_("Date of birth"),
@@ -24,9 +24,7 @@ class Athlete(AbstractUser):
     )
     phone_regex = RegexValidator(
         regex=r"^\+?1?\d{9,13}$",
-        message=_(
-            "Phone number in the format: '+380999999'. Up to 13 digits allowed."
-        ),
+        message=_("Phone number in the format: '+380999999'. Up to 13 digits allowed."),
     )
     phone = models.CharField(
         verbose_name=_("Phone number"),
@@ -61,8 +59,11 @@ class Athlete(AbstractUser):
     )
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}: ({self.username})" \
-            if self.first_name and self.last_name is not None else self.username
+        return (
+            f"{self.first_name} {self.last_name}: ({self.username})"
+            if self.first_name and self.last_name is not None
+            else self.username
+        )
 
     class Meta:
         ordering = ("username",)
