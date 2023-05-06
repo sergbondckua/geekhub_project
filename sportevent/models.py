@@ -94,13 +94,6 @@ class RegisterDistanceAthlete(BaseModel):
         null=True,
     )
 
-    def save(self, *args, **kwargs):
-        if timezone.now().replace(
-            microsecond=0
-        ) > self.distance.event.registration_end_date.replace(microsecond=0):
-            raise ValueError("Registration date is outside of the allowed period")
-        super().save(*args, **kwargs)
-
     def __str__(self) -> str:
         return (
             f"{self.athlete.first_name} {self.athlete.last_name} - "
